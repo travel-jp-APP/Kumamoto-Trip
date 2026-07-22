@@ -76,8 +76,6 @@
     </div>
 
     <script>
-        const TITLES_WITHOUT_NAVIGATION = [];
-
         // 完整分開寫的行程資料與自駕/備用行程資料
         const TRIP_DATA = {
             // 航班資訊
@@ -112,12 +110,22 @@
                 { 
                     name: "熊本大和Roynet飯店", 
                     engName: "Daiwa Roynet Hotel Kumamoto", 
-                    dates: "9/4 - 9/8 (4晚)", 
+                    dates: "9/4 、 9/7 (2晚)", 
                     location: "熊本市中央區 (花畑町站步行2分)", 
                     features: ["交通便利", "近商店街", "舒適商旅"], 
                     note: "位於市中心，鄰近上下通商店街與熊本城。搭乘路面電車至「花畑町」或「熊本城・市役所前」皆可輕鬆抵達，周邊生活機能極佳。", 
                     image: "Kumamoto_Daiwa.jpg",
                     mapUrl: "https://maps.app.goo.gl/6RvqT6xNmdKdEhSq7"
+                },
+                { 
+                    name: "福岡蒙特利拉蘇瑞酒店", 
+                    engName: "Hotel Monterey La Soeur Fukuoka", 
+                    dates: "9/5入住~9/7退房", 
+                    location: "福岡市中央區大名 (天神站步行約5分)", 
+                    features: ["近天神商圈", "交通便利", "歐式風格"], 
+                    note: "位於福岡天神商圈，交通與購物十分便利。", 
+                    image: "Monterey La.jpg",
+                    mapUrl: "https://maps.app.goo.gl/Mvx4N9qeXCM8j3Xx5"
                 }
             ],
             itinerary: [
@@ -228,18 +236,65 @@
             ]
         };
 
+        const ITEM_STYLES = {
+            food: { icon: 'utensils', color: 'text-red-400', border: 'border-l-red-400' },
+            shop: { icon: 'shopping-bag', color: 'text-yellow-500', border: 'border-l-yellow-500' },
+            visit: { icon: 'camera', color: 'text-emerald-500', border: 'border-l-emerald-500' },
+            shrine: { emoji: true, color: 'text-stone-800', border: 'border-l-rose-600' },
+            hotel: { icon: 'bed-double', color: 'text-purple-400', border: 'border-l-purple-400' },
+            note: { icon: 'sticky-note', color: 'text-stone-500', border: 'border-l-stone-400' }
+        };
+
+        const WEATHER_ICONS = {
+            'sunny': { name: 'sun', class: 'text-orange-500' },
+            'cloudy': { name: 'cloud', class: 'text-gray-500' },
+            'rain': { name: 'cloud-rain', class: 'text-blue-500' },
+            'snow': { name: 'snowflake', class: 'text-cyan-400' }
+        };
+
+        const DRIVE_NOTICES = [
+            { title: "右駕左行", text: "日本車輛為右駕，請務必靠左行駛。口訣：「左轉小彎、右轉大彎」。" },
+            { title: "行人優先", text: "斑馬線若有行人準備過馬路，車輛「絕對必須」完全停止讓行。" },
+            { title: "止まれ (Stop)", text: "看到倒三角形的「止まれ」標誌，車輪必須「完全停止」運轉。" },
+            { title: "右轉禮讓", text: "右轉（跨越對向車道）時，必須禮讓直行車與左轉車。" }
+        ];
+
+        const TRAFFIC_SIGNS = [
+            { title: "一時停止", desc: "務必完全煞停", svg: `<svg viewBox="0 0 100 90" class="w-14 h-14 mx-auto"><polygon points="50,85 5,10 95,10" fill="#e53e3e"/><text x="50" y="38" fill="white" font-size="15" font-weight="bold" text-anchor="middle">止まれ</text><text x="50" y="58" fill="white" font-size="13" font-weight="bold" text-anchor="middle">STOP</text></svg>` },
+            { title: "徐行", desc: "減速慢行", svg: `<svg viewBox="0 0 100 90" class="w-14 h-14 mx-auto"><polygon points="50,85 5,10 95,10" fill="#e53e3e"/><polygon points="50,75 12,15 88,15" fill="white"/><text x="50" y="36" fill="#e53e3e" font-size="15" font-weight="bold" text-anchor="middle">徐行</text><text x="50" y="52" fill="#e53e3e" font-size="11" font-weight="bold" text-anchor="middle">SLOW</text></svg>` },
+            { title: "車輛進入禁止", desc: "禁止駛入", svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="#e53e3e"/><rect x="15" y="42" width="70" height="16" fill="white" rx="2"/></svg>` },
+            { title: "最高速度", desc: "限制最高時速", svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="white" stroke="#e53e3e" stroke-width="10"/><text x="50" y="62" fill="#3182ce" font-size="40" font-weight="900" font-family="sans-serif" text-anchor="middle">50</text></svg>` },
+            { title: "單行道", desc: "依箭頭方向", svg: `<svg viewBox="0 0 120 70" class="w-16 h-12 mx-auto"><rect x="2" y="5" width="116" height="60" fill="#1d4ed8" rx="4"/><path d="M 110 20 L 45 20 L 45 10 L 10 35 L 45 60 L 45 50 L 110 50 Z" fill="white"/><text x="65" y="40" fill="#1d4ed8" font-size="12" font-weight="bold" text-anchor="middle">一方通行</text></svg>` },
+            { title: "駐車禁止", desc: "禁止停車", svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="#3182ce" stroke="#e53e3e" stroke-width="10"/><line x1="20" y1="20" x2="80" y2="80" stroke="#e53e3e" stroke-width="10"/></svg>` },
+            { title: "禁止迴轉", desc: "禁止 U-Turn", svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="white" stroke="#e53e3e" stroke-width="8"/><path d="M 35 65 L 35 45 A 15 15 0 0 1 65 45 L 65 55 M 58 50 L 65 58 L 72 50" fill="none" stroke="#3182ce" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><line x1="20" y1="20" x2="80" y2="80" stroke="#e53e3e" stroke-width="8"/></svg>` },
+            { title: "指定方向", desc: "僅能直行/轉彎", svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="46" fill="#1d4ed8" stroke="white" stroke-width="2"/><path d="M 45 78 L 45 36 L 36 44 L 50 20 L 64 44 L 55 36 L 55 78 Z" fill="white"/><path d="M 48 52 C 38 52 32 46 32 38 L 22 38 L 38 22 L 38 32 C 38 32 48 38 48 52 Z" fill="white"/></svg>` },
+            { title: "駐停車禁止", desc: "禁止臨停", svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="#3182ce" stroke="#e53e3e" stroke-width="10"/><line x1="20" y1="20" x2="80" y2="80" stroke="#e53e3e" stroke-width="10"/><line x1="80" y1="20" x2="20" y2="80" stroke="#e53e3e" stroke-width="10"/></svg>` },
+            { title: "禁止超車", desc: "禁止超車", svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="white" stroke="#e53e3e" stroke-width="8"/><text x="50" y="42" fill="#3182ce" font-size="18" font-weight="bold" text-anchor="middle">追越</text><text x="50" y="68" fill="#3182ce" font-size="18" font-weight="bold" text-anchor="middle">禁止</text></svg>` }
+        ];
+
+        const ROAD_MARKINGS = [
+            { title: "白色虛線", desc: "可變換車道", lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex items-center justify-center px-2"><div class="w-full h-0 border-b-2 border-dashed border-white"></div></div>` },
+            { title: "白色實線", desc: "可變換車道 (注意安全)", lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex items-center justify-center px-2"><div class="w-full h-1 bg-white"></div></div>` },
+            { title: "橘黃色實線", desc: "🚫 禁止變換車道", lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex items-center justify-center px-2"><div class="w-full h-1 bg-amber-500"></div></div>` },
+            { title: "雙橘實線", desc: "⚠️ 嚴禁跨越/迴轉", lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex flex-col items-center justify-center gap-1 px-2"><div class="w-full h-0.5 bg-amber-500"></div><div class="w-full h-0.5 bg-amber-500"></div></div>` },
+            { title: "停車格：輕", desc: "🟡 輕自動車專用", lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex items-center justify-center"><div class="border-2 border-amber-400 text-amber-400 font-bold text-xs px-2 py-0.5 rounded">輕</div></div>` }
+        ];
+
+        const NAV_TABS = [
+            { id: 'itinerary', label: '行程', icon: 'calendar' },
+            { id: 'backup', label: '自駕', icon: 'car', color: 'text-amber-600' },
+            { id: 'flights', label: '航班/住宿', icon: 'plane' },
+            { id: 'manhole', label: '自駕須知', icon: 'circle-alert' },
+            { id: 'map', label: '地圖', icon: 'map', color: 'text-emerald-600' },
+            { id: 'notes', label: '備註', icon: 'notebook-pen', color: 'text-pink-600' }
+        ];
+
         const getGoogleMapUrl = (name) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
         const getIcon = (name, classes = "", size = 24) => `<i data-lucide="${name}" class="${classes}" width="${size}" height="${size}"></i>`;
 
         // 渲染天氣圖示
         const renderWeatherIcon = (type) => {
-            const icons = {
-                'sunny': { name: 'sun', class: 'text-orange-500' },
-                'cloudy': { name: 'cloud', class: 'text-gray-500' },
-                'rain': { name: 'cloud-rain', class: 'text-blue-500' },
-                'snow': { name: 'snowflake', class: 'text-cyan-400' }
-            };
-            const icon = icons[type] || icons['sunny'];
+            const icon = WEATHER_ICONS[type] || WEATHER_ICONS['sunny'];
             return getIcon(icon.name, `w-5 h-5 ${icon.class}`);
         };
 
@@ -252,17 +307,8 @@
             let iconName = 'map-pin', iconColor = "text-stone-400", borderColor = "border-stone-200";
             let isEmoji = false;
 
-            const styles = {
-                food: { icon: 'utensils', color: 'text-red-400', border: 'border-l-red-400' },
-                shop: { icon: 'shopping-bag', color: 'text-yellow-500', border: 'border-l-yellow-500' },
-                visit: { icon: 'camera', color: 'text-emerald-500', border: 'border-l-emerald-500' },
-                shrine: { emoji: true, color: 'text-stone-800', border: 'border-l-rose-600' },
-                hotel: { icon: 'bed-double', color: 'text-purple-400', border: 'border-l-purple-400' },
-                note: { icon: 'sticky-note', color: 'text-stone-500', border: 'border-l-stone-400' }
-            };
-
-            if (styles[item.type]) {
-                const s = styles[item.type];
+            const s = ITEM_STYLES[item.type];
+            if (s) {
                 if (s.emoji) isEmoji = true; else iconName = s.icon;
                 iconColor = s.color; borderColor = s.border;
             } else if (item.type === 'transport') {
@@ -280,10 +326,7 @@
             // 特殊標籤樣式處理
             const isCollection = item.tag === "收集";
             if (isCollection) { iconName = 'star'; iconColor = "text-amber-500"; borderColor = "border-l-amber-500"; }
-            const isBackup = item.tag === "備用";
-            if (isBackup) { iconName = 'car'; iconColor = "text-amber-600"; borderColor = "border-l-amber-500"; }
 
-            const showNavigation = item.mapUrl || (!TITLES_WITHOUT_NAVIGATION.includes(item.title) && item.mapUrl !== null);
             const destinationUrl = item.mapUrl || getGoogleMapUrl(item.title);
 
             return `
@@ -301,10 +344,10 @@
                         <div class="flex gap-2 shrink-0"> 
                             ${item.bookingUrl ? `<a href="${item.bookingUrl}" target="_blank" class="p-2 bg-red-50 text-red-600 rounded-full active:scale-95 shrink-0" title="資訊網站">${getIcon('circle-alert', "", 18)}</a>` : ''}
                             ${item.stampUrl ? `<a href="${item.stampUrl}" target="_blank" class="p-2 bg-rose-50 text-rose-600 rounded-full active:scale-95 shrink-0" title="紀念章網址">${getIcon('stamp', "", 18)}</a>` : ''}
-                            ${showNavigation ? `<a href="${destinationUrl}" target="_blank" class="p-2 bg-blue-50 text-blue-600 rounded-full active:scale-95 shrink-0" title="地圖導航">${getIcon('navigation', "", 18)}</a>` : ''}
+                            <a href="${destinationUrl}" target="_blank" class="p-2 bg-blue-50 text-blue-600 rounded-full active:scale-95 shrink-0" title="地圖導航">${getIcon('navigation', "", 18)}</a>
                         </div>
                     </div>
-                    ${item.tag ? `<div class="mt-1"><span class="text-[10px] px-2 py-0.5 rounded-full border font-medium mr-2 ${isCollection ? "border-amber-400 text-amber-600 bg-amber-50" : (isBackup ? "border-amber-400 text-amber-700 bg-amber-50" : "border-stone-300 text-stone-500")}">${item.tag}</span></div>` : ''}
+                    ${item.tag ? `<div class="mt-1"><span class="text-[10px] px-2 py-0.5 rounded-full border font-medium mr-2 ${isCollection ? "border-amber-400 text-amber-600 bg-amber-50" : "border-stone-300 text-stone-500"}">${item.tag}</span></div>` : ''}
                     ${item.highlight ? `<div class="mt-2 inline-block px-3 py-1 bg-red-50 text-red-600 text-xs rounded-md font-bold select-text">★ ${item.highlight}</div>` : ''}
                     ${item.note ? `<div class="mt-2 text-sm text-stone-600 leading-relaxed bg-stone-50 p-3 rounded border border-stone-100 whitespace-pre-line select-text">${item.note}</div>` : ''}
                 </div>
@@ -381,97 +424,6 @@
         
         // 【渲染函數 3】自駕須知頁面 (含日本自駕注意事項、常用交通號誌、道路標線辨識、加油站使用指南)
         function renderDriveView() {
-            // 1. 注意事項資料
-            const noticeItems = [
-                { title: "右駕左行", text: "日本車輛為右駕，請務必靠左行駛。口訣：「左轉小彎、右轉大彎」。" },
-                { title: "行人優先", text: "斑馬線若有行人準備過馬路，車輛「絕對必須」完全停止讓行。" },
-                { title: "止まれ (Stop)", text: "看到倒三角形的「止まれ」標誌，車輪必須「完全停止」運轉。" },
-                { title: "右轉禮讓", text: "右轉（跨越對向車道）時，必須禮讓直行車與左轉車。" }
-            ];
-
-            // 2. 常用號誌資料 (SVG標誌呈現)
-            const trafficSigns = [
-                {
-                    title: "一時停止",
-                    desc: "務必完全煞停",
-                    svg: `<svg viewBox="0 0 100 90" class="w-14 h-14 mx-auto"><polygon points="50,85 5,10 95,10" fill="#e53e3e"/><text x="50" y="38" fill="white" font-size="15" font-weight="bold" text-anchor="middle">止まれ</text><text x="50" y="58" fill="white" font-size="13" font-weight="bold" text-anchor="middle">STOP</text></svg>`
-                },
-                {
-                    title: "徐行",
-                    desc: "減速慢行",
-                    svg: `<svg viewBox="0 0 100 90" class="w-14 h-14 mx-auto"><polygon points="50,85 5,10 95,10" fill="#e53e3e"/><polygon points="50,75 12,15 88,15" fill="white"/><text x="50" y="36" fill="#e53e3e" font-size="15" font-weight="bold" text-anchor="middle">徐行</text><text x="50" y="52" fill="#e53e3e" font-size="11" font-weight="bold" text-anchor="middle">SLOW</text></svg>`
-                },
-                {
-                    title: "車輛進入禁止",
-                    desc: "禁止駛入",
-                    svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="#e53e3e"/><rect x="15" y="42" width="70" height="16" fill="white" rx="2"/></svg>`
-                },
-                {
-                    title: "最高速度",
-                    desc: "限制最高時速",
-                    svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="white" stroke="#e53e3e" stroke-width="10"/><text x="50" y="62" fill="#3182ce" font-size="40" font-weight="900" font-family="sans-serif" text-anchor="middle">50</text></svg>`
-                },
-                {
-                    title: "單行道",
-                    desc: "依箭頭方向",
-                    svg: `<svg viewBox="0 0 120 70" class="w-16 h-12 mx-auto"><rect x="2" y="5" width="116" height="60" fill="#1d4ed8" rx="4"/><path d="M 110 20 L 45 20 L 45 10 L 10 35 L 45 60 L 45 50 L 110 50 Z" fill="white"/><text x="65" y="40" fill="#1d4ed8" font-size="12" font-weight="bold" text-anchor="middle">一方通行</text></svg>`
-                },
-                {
-                    title: "駐車禁止",
-                    desc: "禁止停車",
-                    svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="#3182ce" stroke="#e53e3e" stroke-width="10"/><line x1="20" y1="20" x2="80" y2="80" stroke="#e53e3e" stroke-width="10"/></svg>`
-                },
-                {
-                    title: "禁止迴轉",
-                    desc: "禁止 U-Turn",
-                    svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="white" stroke="#e53e3e" stroke-width="8"/><path d="M 35 65 L 35 45 A 15 15 0 0 1 65 45 L 65 55 M 58 50 L 65 58 L 72 50" fill="none" stroke="#3182ce" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/><line x1="20" y1="20" x2="80" y2="80" stroke="#e53e3e" stroke-width="8"/></svg>`
-                },
-                {
-                    title: "指定方向",
-                    desc: "僅能直行/轉彎",
-                    svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="46" fill="#1d4ed8" stroke="white" stroke-width="2"/><path d="M 45 78 L 45 36 L 36 44 L 50 20 L 64 44 L 55 36 L 55 78 Z" fill="white"/><path d="M 48 52 C 38 52 32 46 32 38 L 22 38 L 38 22 L 38 32 C 38 32 48 38 48 52 Z" fill="white"/></svg>`
-                },
-                {
-                    title: "駐停車禁止",
-                    desc: "禁止臨停",
-                    svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="#3182ce" stroke="#e53e3e" stroke-width="10"/><line x1="20" y1="20" x2="80" y2="80" stroke="#e53e3e" stroke-width="10"/><line x1="80" y1="20" x2="20" y2="80" stroke="#e53e3e" stroke-width="10"/></svg>`
-                },
-                {
-                    title: "禁止超車",
-                    desc: "禁止超車",
-                    svg: `<svg viewBox="0 0 100 100" class="w-14 h-14 mx-auto"><circle cx="50" cy="50" r="45" fill="white" stroke="#e53e3e" stroke-width="8"/><text x="50" y="42" fill="#3182ce" font-size="18" font-weight="bold" text-anchor="middle">追越</text><text x="50" y="68" fill="#3182ce" font-size="18" font-weight="bold" text-anchor="middle">禁止</text></svg>`
-                }
-            ];
-
-            // 3. 道路標線資料
-            const roadMarkings = [
-                {
-                    title: "白色虛線",
-                    desc: "可變換車道",
-                    lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex items-center justify-center px-2"><div class="w-full h-0 border-b-2 border-dashed border-white"></div></div>`
-                },
-                {
-                    title: "白色實線",
-                    desc: "可變換車道 (注意安全)",
-                    lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex items-center justify-center px-2"><div class="w-full h-1 bg-white"></div></div>`
-                },
-                {
-                    title: "橘黃色實線",
-                    desc: "🚫 禁止變換車道",
-                    lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex items-center justify-center px-2"><div class="w-full h-1 bg-amber-500"></div></div>`
-                },
-                {
-                    title: "雙橘實線",
-                    desc: "⚠️ 嚴禁跨越/迴轉",
-                    lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex flex-col items-center justify-center gap-1 px-2"><div class="w-full h-0.5 bg-amber-500"></div><div class="w-full h-0.5 bg-amber-500"></div></div>`
-                },
-                {
-                    title: "停車格：輕",
-                    desc: "🟡 輕自動車專用",
-                    lineStyle: `<div class="w-full h-12 bg-stone-600 rounded flex items-center justify-center"><div class="border-2 border-amber-400 text-amber-400 font-bold text-xs px-2 py-0.5 rounded">輕</div></div>`
-                }
-            ];
-
             return `
                 <div class="animate-fade-in space-y-6 pb-20">
                     
@@ -481,13 +433,13 @@
                             ${getIcon('car', "text-emerald-600", 24)} 日本自駕注意事項
                         </h2>
 
-                        <!-- 插入圖片 car.jpg -->
+                        <!-- 圖片 car.jpg -->
                         <div class="mb-4 rounded-xl overflow-hidden shadow-sm border border-stone-200">
                             <img src="car.jpg" alt="日本自駕注意事項" class="w-full h-auto object-cover" onerror="this.src='https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1000&auto=format&fit=crop';"/>
                         </div>
 
                         <div class="space-y-3">
-                            ${noticeItems.map(item => `
+                            ${DRIVE_NOTICES.map(item => `
                                 <div class="bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-stone-200 border-l-4 border-l-lime-500 flex gap-3">
                                     <div class="mt-0.5 text-amber-500 shrink-0">${getIcon('triangle-alert', "", 20)}</div>
                                     <div>
@@ -505,7 +457,7 @@
                             <span class="w-1.5 h-5 bg-stone-500 rounded-full inline-block"></span> 常用交通號誌
                         </h2>
                         <div class="grid grid-cols-2 gap-3">
-                            ${trafficSigns.map(sign => `
+                            ${TRAFFIC_SIGNS.map(sign => `
                                 <div class="bg-white/95 backdrop-blur-sm p-3.5 rounded-xl shadow-sm border border-stone-200 text-center flex flex-col items-center justify-between">
                                     <div class="my-2 flex items-center justify-center h-16 w-full">
                                         ${sign.svg}
@@ -525,7 +477,7 @@
                             <span class="w-1.5 h-5 bg-amber-500 rounded-full inline-block"></span> 道路標線辨識
                         </h2>
                         <div class="space-y-2.5">
-                            ${roadMarkings.map(m => `
+                            ${ROAD_MARKINGS.map(m => `
                                 <div class="bg-white/95 backdrop-blur-sm p-3 rounded-xl shadow-sm border border-stone-200 flex items-center gap-3">
                                     <div class="w-28 shrink-0">${m.lineStyle}</div>
                                     <div>
@@ -691,22 +643,13 @@
             }, 50);
         }
 
-        // 更新底部導航列狀態 (自駕須知圖示已更新為驚嘆號 circle-alert)
+        // 更新底部導航列狀態
         function updateBottomNav() {
             const nav = document.getElementById('bottom-nav');
-            const tabs = [
-                { id: 'itinerary', label: '行程', icon: 'calendar' },
-                { id: 'backup', label: '自駕', icon: 'car', color: 'text-amber-600' },
-                { id: 'flights', label: '航班/住宿', icon: 'plane' },
-                { id: 'manhole', label: '自駕須知', icon: 'circle-alert' },
-                { id: 'map', label: '地圖', icon: 'map', color: 'text-emerald-600' },
-                { id: 'notes', label: '備註', icon: 'notebook-pen', color: 'text-pink-600' }
-            ];
-            
-            nav.innerHTML = tabs.map(tab => {
+            nav.innerHTML = NAV_TABS.map(tab => {
                 const isActive = state.activeTab === tab.id;
                 const color = (tab.color && isActive) ? tab.color : (isActive ? 'text-indigo-600' : 'text-stone-400');
-                return `<button onclick="switchTab('${tab.id}')" class="flex flex-col items-center justify-center w-14 h-full space-y-1 active:bg-stone-50 transition-colors ${color}">${getIcon(tab.icon, "", 20)}<span class="text-[9px] font-medium ${tab.sub || ''}">${tab.label}</span></button>`;
+                return `<button onclick="switchTab('${tab.id}')" class="flex flex-col items-center justify-center w-14 h-full space-y-1 active:bg-stone-50 transition-colors ${color}">${getIcon(tab.icon, "", 20)}<span class="text-[9px] font-medium">${tab.label}</span></button>`;
             }).join('');
         }
 
