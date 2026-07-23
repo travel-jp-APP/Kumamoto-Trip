@@ -79,9 +79,7 @@
     </div>
 
     <script>
-        // 完整分開寫的行程資料與自駕/備用行程資料
         const TRIP_DATA = {
-            // 航班資訊
             flights: [
                 { 
                     type: "Departure", 
@@ -108,7 +106,6 @@
                     flightUrl: "https://www.flightaware.com/live/flight/SJX847", 
                 }
             ],
-            // 住宿資訊
             hotels: [
                 { 
                     name: "熊本大和Roynet飯店", 
@@ -138,8 +135,8 @@
                     { type: "visit", time: "14:30", title: "熊本市上下水道局", tag: "收集", mapUrl: "https://maps.app.goo.gl/SL6JizMNXAcGNx7Z6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：平日 08:30–17:15\n<span class='text-red-500 font-bold'>※六日及國定假日公休</span>" },
                     { type: "visit", time: "15:00", title: "水前寺競技場", tag: "收集", mapUrl: "https://maps.app.goo.gl/EjbjyAo4TFTNGAex7", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/41052/", note: "營業時間：08:30–18:00\n<span class='text-red-500 font-bold'>※第1和第3個星期三公休、年底年初公休</span>" },
                     { type: "visit", time: "15:30", title: "熊本市綜合體育館・青年會館", tag: "收集", mapUrl: "https://maps.app.goo.gl/76tTLdtR9yBKJDXF6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休（若逢假日則順延）</span>" },
-                    { type: "visit", time: "17:30", title: "パークドーム熊本", tag: "收集", mapUrl: "https://maps.app.goo.gl/WfPf6PF43WaABRoE9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休" },
-                    { type: "visit", time: "18:30", title: "熊本県民総合運動公園 受付", tag: "收集", mapUrl: "https://maps.app.goo.gl/2mKfNJLhoL3PTK5S9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休" },
+                    { type: "visit", time: "17:30", title: "パークドーム熊本", tag: "收集", mapUrl: "https://maps.app.goo.gl/WfPf6PF43WaABRoE9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休</span>" },
+                    { type: "visit", time: "18:30", title: "熊本県民総合運動公園 受付", tag: "收集", mapUrl: "https://maps.app.goo.gl/2mKfNJLhoL3PTK5S9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休</span>" },
                     { type: "shop", time: "20:00", title: "上下通商店街", highlight: "熊本最熱鬧商圈", mapUrl: "https://maps.app.goo.gl/cXt58KbZsi9PsN1KA", note: "【逛街筆記】\n熊本市內最大的商店街，分為「上通」與「下通」，周邊還有新市街。具有採光遮雨棚，無論天氣如何都好逛。\n\n【美食推薦】\n• 熊本拉麵：黑亭拉麵、桂花拉麵 (特色炸蒜片與麻油香)\n• 炸豬排：勝烈亭 (熊本必吃米其林推薦豬排，建議避開尖峰時段)\n• 馬肉刺身：菅乃屋 (想體驗在地特色可嘗試)\n\n【購物指南】\n• 藥妝店：松本清、大國藥妝、Sundrug 均有，可比價。\n• 百貨：鶴屋百貨 (內有熊本熊廣場)。\n• 伴手禮：各類熊本熊周邊、陣太鼓等傳統點心。" }
                 ]},
                 { id: "day2", date: "09/05", dayOfWeek: "六", location: "熊本 ➔ 福岡", weather: "sunny", temp: "26°C", items: [
@@ -150,7 +147,7 @@
                     { type: "visit", time: "13:30", title: "熊本市水の科學館", tag: "收集", mapUrl: "https://maps.app.goo.gl/XUNH3eMiLxjxdzhe9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–17:00\n<span class='text-red-500 font-bold'>※每週一公休、年底年初公休</span>" },
                     { type: "visit", time: "16:00", title: "觀光休憩廣場TAMA", tag: "收集", mapUrl: "https://maps.app.goo.gl/dxdqZe8KcukKbwxt5", note: "營業時間：09:00～19:00\n<span class='text-red-500 font-bold'>※年中無休</span>" },
                     { type: "visit", time: "17:30", title: "新鳥栖駅観光案内所", tag: "收集", mapUrl: "https://maps.app.goo.gl/9KBviu9gzz82DFEz5", bookingUrl: "https://www.city.tosu.lg.jp/soshiki/18/107130.html", note: "營業時間：09:00～18:00\n<span class='text-red-500 font-bold'>※年中無休</span>" },
-                    { type: "visit", time: "19:00", title: "博多南駅前ビル ナカイチ", tag: "收集", mapUrl: "https://maps.app.goo.gl/H82BMtxRXUimbBwu6", bookingUrl: "https://www.city.tosu.lg.jp/soshiki/18/107130.html", note: "營業時間：\n① 08:30～17:00 (平日)\n② 10:00～18:00 (土日祝日 / 六日及國定假日)" },
+                    { type: "visit", time: "19:00", title: "博多南駅前ビル ナカイチ", tag: "收集", mapUrl: "https://maps.app.goo.gl/H82BMtxRXUimbBwu6", bookingUrl: "https://www.city.tosu.lg.jp/soshiki/18/107130.html", note: "營業時間：\n① 08:30～17:00 (平日)\n② 10:00～18:00 (土日祝日 / 六日及國定假日)" }
                 ]},
                 { id: "day3", date: "09/06", dayOfWeek: "日", location: "福岡", weather: "cloudy", temp: "25°C", items: [
                     { type: "shrine", time: "09:00", title: "櫛田神社", mapUrl: "https://maps.app.goo.gl/6VtDdTUq9Z6dTjnp8", note: "營業時間：04:00–22:00 (本殿參拜，全年無休)\n\n【平日/假日地點說明】\n• 本殿參拜 04:00–22:00；社務所朱印/御守授與時間為 09:00–17:00（全年無休）。\n\n• 博多的守護神，是博多祗園山笠祭典的舞台，供奉著極具氣勢的裝飾山笠。" },
@@ -163,7 +160,7 @@
                     { type: "shrine", time: "18:00", title: "宮地嶽神社", mapUrl: "https://maps.app.goo.gl/ii5buzg5sg7FTt4f6", stampUrl: "https://miyajidake.shop-pro.jp/?mode=cate&cbid=2620207&csid=0", note: "營業時間：09:00–17:00 (御守與朱印授與所，神社本殿參拜24小時)\n• 擁有著名的巨型注連繩，以及每年二月與十月限定的絕美參道夕陽「光之航路」。" }
                 ]},
                 { id: "day4", date: "09/07", dayOfWeek: "一", location: "福岡 ➔ 北九州 ➔ 熊本", weather: "sunny", temp: "27°C", items: [
-                    { type: "visit", time: "08:00", title: "福岡県庁", tag: "收集", mapUrl: "https://maps.app.goo.gl/LWjtZ6sXtDe1iWKV9", bookingUrl: "https://www.pref.fukuoka.lg.jp/contents/manholecard.html", note: "營業時間：08:30–17:45\n<span class='text-red-500 font-bold'>※六日及國定假日公休</span>\n• 人孔蓋卡領取點位於縣廳大樓內，平日上班時間前往限定，假日不發放。" },
+                    { type: "visit", time: "08:00", title: "福岡県廳", tag: "收集", mapUrl: "https://maps.app.goo.gl/LWjtZ6sXtDe1iWKV9", bookingUrl: "https://www.pref.fukuoka.lg.jp/contents/manholecard.html", note: "營業時間：08:30–17:45\n<span class='text-red-500 font-bold'>※六日及國定假日公休</span>\n• 人孔蓋卡領取點位於縣廳大樓內，平日上班時間前往限定，假日不發放。" },
                     { type: "visit", time: "10:00", title: "北九州市科学館", tag: "收集", mapUrl: "https://maps.app.goo.gl/hwjGL3ekusN259mK7?g_st=ic", bookingUrl: "https://www.city.kitakyushu.lg.jp/suidou/s01101006.html", note: "營業時間：10:00–18:00" },
                     { type: "visit", time: "11:30", title: "小倉城", mapUrl: "https://maps.app.goo.gl/DWHsgMzDFYuBnZng9?g_st=ic", note: "營業時間：09:00–20:00\n\n【平日/假日地點說明】\n• 天守閣開放時間：09:00–20:00（4月–10月），全年無休。" },
                     { type: "shrine", time: "12:30", title: "小倉祇園 八坂神社", mapUrl: "https://maps.app.goo.gl/N5KXCLyepUZPSpK99?g_st=ic", stampUrl: "https://yasaka-jinja.com/juyo/", note: "營業時間：09:00–17:00\n\n【平日/假日地點說明】\n• 社務所/授與所：09:00–17:00（全年無休）。" },
@@ -183,14 +180,14 @@
                     { type: "shrine", time: "12:30", title: "阿蘇白水龍神權現(白蛇神社)", mapUrl: "https://maps.app.goo.gl/TCoeZUspY9rcvTVi8", stampUrl: "https://www.aso-sirohebi.com/pg6067814.html", routeUrl: "https://maps.app.goo.gl/xE4JCE9nPV7PFmcA9", note: "營業時間：08:30–16:30\n🚗 距離 16 公里，車程約 22 分鐘" },
                     { type: "visit", time: "14:00", title: "ミナテラス 益城町交流情報センター", tag: "收集", highlight: "香吉士銅像", mapUrl: "https://maps.app.goo.gl/3SXwSmVtAPu2vvz79", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", routeUrl: "https://maps.app.goo.gl/KkxefhbcjjQfVVgs5?g_st=ic", note: "營業時間：8:30～12:00、13:00～17:00\n<span class='text-red-500 font-bold'>※每週一公休</span>\n（此處設有海賊王香吉士銅像）\n🚗 距離 33 公里，車程約 42 分鐘" },
                     { type: "visit", time: "14:30", title: "益城町役場", tag: "收集", mapUrl: "https://maps.app.goo.gl/ptWsbVC1q2bmn3kN7", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", routeUrl: "https://maps.app.goo.gl/E4pTdYYEvHickvKb7?g_st=ic", note: "【領取地點與時間】\n• 平日：益城町役場 総合案内所 (8:30～12:00、13:00～17:00)\n• 假日：益城町役場 管理室 (8:30～17:00)\n🚗 距離 1.8 公里，車程約 5 分鐘" },            
-                    { type: "visit", time: "15:00", title: "熊本市綜合體育館・青年會館", tag: "收集", mapUrl: "https://maps.app.goo.gl/76tTLdtR9yBKJDXF6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休（若逢假日則順延）</span>" },
-                    { type: "visit", time: "15:30", title: "熊本市上下水道局", tag: "收集", mapUrl: "https://maps.app.goo.gl/SL6JizMNXAcGNx7Z6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：平日 08:30–17:15\n<span class='text-red-500 font-bold'>※六日及國定假日公休</span>" },
-                    { type: "visit", time: "15:45", title: "水前寺競技場", tag: "收集", mapUrl: "https://maps.app.goo.gl/EjbjyAo4TFTNGAex7", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/41052/", note: "營業時間：08:30–18:00\n<span class='text-red-500 font-bold'>※第1和第3個星期三公休、年底年初公休</span>" },
+                    { type: "visit", time: "15:00", title: "熊本市綜合體育館・青年會館", tag: "收集", mapUrl: "https://maps.app.goo.gl/76tTLdtR9yBKJDXF6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", routeUrl: "https://maps.app.goo.gl/vZReMJaUM1RCKUMA8", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休（若逢假日則順延）</span>\n🚗 距離 8.3 公里，車程約 18 分鐘" },
+                    { type: "visit", time: "15:30", title: "熊本市上下水道局", tag: "收集", mapUrl: "https://maps.app.goo.gl/SL6JizMNXAcGNx7Z6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", routeUrl: "https://maps.app.goo.gl/JPvj2FqV57qYGNio8", note: "營業時間：平日 08:30–17:15\n<span class='text-red-500 font-bold'>※六日及國定假日公休</span>\n🚗 距離 400 公尺，車程約 2 分鐘" },
+                    { type: "visit", time: "15:45", title: "水前寺競技場", tag: "收集", mapUrl: "https://maps.app.goo.gl/EjbjyAo4TFTNGAex7", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/41052/", routeUrl: "https://maps.app.goo.gl/dZoN9GtmDaNPgpQu5", note: "營業時間：08:30–18:00\n<span class='text-red-500 font-bold'>※第1和第3個星期三公休、年底年初公休</span>\n🚗 距離 600 公尺，車程約 2 分鐘" },
                     { type: "visit", time: "16:00", title: "花畑広場服務棟", tag: "收集", mapUrl: "https://maps.app.goo.gl/ErHtT3vUgC6qLKws8", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/39924/", note: "營業時間：10:00–18:00" },     
-                    { type: "visit", time: "16:30", title: "熊本市水の科學館", tag: "收集", mapUrl: "https://maps.app.goo.gl/XUNH3eMiLxjxdzhe9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–17:00\n<span class='text-red-500 font-bold'>※每週一公休、年底年初公休</span>" },		
-                    { type: "shrine", time: "17:30", title: "彦嶽宮 下宮", mapUrl: "https://maps.app.goo.gl/VNWrkZp4o346zYgy9", stampUrl: "https://hikotakegu.localinfo.jp/posts/categories/1143705/page/1?type=grid", note: "營業時間：08:00–17:00" },
-                    { type: "visit", time: "18:30", title: "パークドーム熊本", tag: "收集", mapUrl: "https://maps.app.goo.gl/WfPf6PF43WaABRoE9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休" },
-                    { type: "visit", time: "19:00", title: "熊本県民総合運動公園 受付", tag: "收集", mapUrl: "https://maps.app.goo.gl/2mKfNJLhoL3PTK5S9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休" },              
+                    { type: "visit", time: "16:30", title: "熊本市水の科學館", tag: "收集", mapUrl: "https://maps.app.goo.gl/XUNH3eMiLxjxdzhe9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", routeUrl: "https://maps.app.goo.gl/y683s76oq5vnRwwE6", note: "營業時間：09:00–17:00\n<span class='text-red-500 font-bold'>※每週一公休、年底年初公休</span>\n🚗 距離 10.9 公里，車程約 21 分鐘" },		
+                    { type: "shrine", time: "17:30", title: "彦嶽宮 下宮", mapUrl: "https://maps.app.goo.gl/VNWrkZp4o346zYgy9", stampUrl: "https://hikotakegu.localinfo.jp/posts/categories/1143705/page/1?type=grid", routeUrl: "https://maps.app.goo.gl/eLLc2MxWxf2ocERf6", note: "營業時間：08:00–17:00\n🚗 距離 28 公里，車程約 44 分鐘" },
+                    { type: "visit", time: "18:30", title: "パークドーム熊本", tag: "收集", mapUrl: "https://maps.app.goo.gl/WfPf6PF43WaABRoE9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休</span>" },
+                    { type: "visit", time: "19:00", title: "熊本県民綜合運動公園 受付", tag: "收集", mapUrl: "https://maps.app.goo.gl/2mKfNJLhoL3PTK5S9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休</span>" },              
                     { type: "shop", time: "20:00", title: "上下通商店街", highlight: "熊本最熱鬧商圈", mapUrl: "https://maps.app.goo.gl/cXt58KbZsi9PsN1KA", note: "【逛街筆記】\n熊本市內最大的商店街，分為「上通」與「下通」，周邊還有新市街。具有採光遮雨棚，無論天氣如何都好逛。\n\n【美食推薦】\n• 熊本拉麵：黑亭拉麵、桂花拉麵 (特色炸蒜片與麻油香)\n• 炸豬排：勝烈亭 (熊本必吃米其林推薦豬排，建議避開尖峰時段)\n• 馬肉刺身：菅乃屋 (想體驗在地特色可嘗試)\n\n【購物指南】\n• 藥妝店：松本清、大國藥妝、Sundrug 均有，可比價。\n• 百貨：鶴屋百貨 (內有熊本熊廣場)。\n• 伴手禮：各類熊本熊周邊、陣太鼓等傳統點心。" }
                 ]},
                 { id: "day2", date: "09/05", dayOfWeek: "六", location: "熊本 ➔ 福岡", weather: "sunny", temp: "26°C", items: [
@@ -214,7 +211,7 @@
                     { type: "visit", time: "16:45", title: "7-Eleven 若松区役所前店", tag: "收集", mapUrl: "https://maps.app.goo.gl/qgHz1d3hoeHQryoc8?g_st=ic", bookingUrl: "https://www.city.kitakyushu.lg.jp/suidou/s01101006.html", note: "【平日/假日發放地點】\n• 平日與假日：7-Eleven 若松區役所前店櫃檯（24小時開放發放）。\n\n• 北九州市人孔蓋卡領取據點之一，可點選上方驚嘆號查看詳情。" }
                 ]},
                 { id: "day4", date: "09/07", dayOfWeek: "一", location: "福岡 ➔ 北九州 ➔ 熊本", weather: "sunny", temp: "27°C", items: [
-                    { type: "visit", time: "08:00", title: "福岡県庁", tag: "收集", mapUrl: "https://maps.app.goo.gl/LWjtZ6sXtDe1iWKV9", bookingUrl: "https://www.pref.fukuoka.lg.jp/contents/manholecard.html", note: "營業時間：08:30–17:45\n<span class='text-red-500 font-bold'>※六日及國定假日公休</span>\n• 人孔蓋卡領取點位於縣廳大樓內，平日上班時間前往限定，假日不發放。" },
+                    { type: "visit", time: "08:00", title: "福岡県廳", tag: "收集", mapUrl: "https://maps.app.goo.gl/LWjtZ6sXtDe1iWKV9", bookingUrl: "https://www.pref.fukuoka.lg.jp/contents/manholecard.html", note: "營業時間：08:30–17:45\n<span class='text-red-500 font-bold'>※六日及國定假日公休</span>\n• 人孔蓋卡領取點位於縣廳大樓內，平日上班時間前往限定，假日不發放。" },
                     { type: "shrine", time: "08:30", title: "十日恵比須神社", mapUrl: "https://maps.app.goo.gl/QkyHJKqFVDqH4UgQ7?g_st=ic", stampUrl: "https://www.tooka-ebisu.or.jp/giving/", note: "營業時間：09:30–17:30" },
                     { type: "shrine", time: "09:30", title: "筑前國一之宮 筥崎宮", mapUrl: "https://maps.app.goo.gl/be7XGR4PuPAXCoEb9", stampUrl: "https://hakozakigu.or.jp/omamori/", note: "營業時間：08:30–17:30" },
                     { type: "visit", time: "08:00", title: "古賀市役所", tag: "收集", mapUrl: "https://maps.app.goo.gl/ur5D3Dek8C7xTZMM9", bookingUrl: "https://www.city.koga.fukuoka.jp/cityhall/work/jougesuido/s_jigyou/s_jigyou_2/007.php", note: "【平日】9:00～16:00" }
@@ -224,7 +221,6 @@
                     { type: "transport", time: "11:55", title: "搭乘 JX847 返台", mapUrl: "https://maps.app.goo.gl/wbkMbuNTzSuTo1gS7", note: "【航班資訊】\n• 11:55 熊本 (KMJ) 起飛 ➔ 13:20 抵達台北 (TPE)。\n• 結束充實美好的熊本、佐賀與福岡「人孔蓋卡」及「神社」收集之旅！" }
                 ]}
             ],
-            // 實用連結整理
             mapLinks: [
                 { title: "阿蘇熊本機場交通", url: "https://www.kumamoto-airport.co.jp/zh-TW/%E8%A8%BA%E5%95%8F/" },
                 { title: "熊本熊IC卡自動販賣機", url: "https://www.kumamoto-airport.co.jp/zh-TW/%E8%A8%AD%E5%82%99/IC%E5%8D%A1%E8%87%AA%E5%8B%95%E8%B2%A9%E8%B3%A3%E6%A9%9F/" },
@@ -237,7 +233,6 @@
                 { title: "紀念幣地圖", url: "https://www.stampmedal.com/map.htm" },
                 { title: "coinlocker地圖", url: "https://coinlocker.click/" }
             ],
-            // 備註頁面資料
             notes: [
                 { title: "九州JR pass比較表", image: "JR pass.PNG" }
             ]
@@ -253,10 +248,10 @@
         };
 
         const WEATHER_ICONS = {
-            'sunny': { name: 'sun', class: 'text-orange-500' },
-            'cloudy': { name: 'cloud', class: 'text-gray-500' },
-            'rain': { name: 'cloud-rain', class: 'text-blue-500' },
-            'snow': { name: 'snowflake', class: 'text-cyan-400' }
+            sunny: { name: 'sun', class: 'text-orange-500' },
+            cloudy: { name: 'cloud', class: 'text-gray-500' },
+            rain: { name: 'cloud-rain', class: 'text-blue-500' },
+            snow: { name: 'snowflake', class: 'text-cyan-400' }
         };
 
         const DRIVE_NOTICES = [
@@ -299,20 +294,17 @@
         const getGoogleMapUrl = (name) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
         const getIcon = (name, classes = "", size = 24) => `<i data-lucide="${name}" class="${classes}" width="${size}" height="${size}"></i>`;
 
-        // 渲染天氣圖示
         const renderWeatherIcon = (type) => {
-            const icon = WEATHER_ICONS[type] || WEATHER_ICONS['sunny'];
+            const icon = WEATHER_ICONS[type] || WEATHER_ICONS.sunny;
             return getIcon(icon.name, `w-5 h-5 ${icon.class}`);
         };
 
-        // 【渲染函數 1】行程頁面：產生單一行程卡片
         function renderItineraryItem(item) {
             if (item.type === 'image') {
                 return `<div class="mb-4 rounded-xl overflow-hidden shadow-sm border border-stone-200"><img src="${item.src}" alt="${item.title || 'Image'}" class="w-full h-auto object-cover" /></div>`;
             }
 
-            let iconName = 'map-pin', iconColor = "text-stone-400", borderColor = "border-stone-200";
-            let isEmoji = false;
+            let iconName = 'map-pin', iconColor = "text-stone-400", borderColor = "border-stone-200", isEmoji = false;
 
             const s = ITEM_STYLES[item.type];
             if (s) {
@@ -330,7 +322,6 @@
                 }
             }
 
-            // 特殊標籤樣式處理
             const isCollection = item.tag === "收集";
             if (isCollection) { iconName = 'star'; iconColor = "text-amber-500"; borderColor = "border-l-amber-500"; }
 
@@ -362,13 +353,11 @@
             </div>`;
         }
 
-        // 【渲染函數 1 延伸】行程頁面：產生每日行程視圖
         function renderItineraryView(dayId, isBackup = false) {
-            const dataList = isBackup ? (TRIP_DATA.backupItinerary || []) : TRIP_DATA.itinerary;
+            const dataList = isBackup ? TRIP_DATA.backupItinerary : TRIP_DATA.itinerary;
             const currentDayData = dataList.find(d => d.id === dayId);
             if (!currentDayData) return '';
 
-            // 更新 Header 天氣與地點
             const headerStatus = document.getElementById('header-status');
             headerStatus.innerHTML = `${renderWeatherIcon(currentDayData.weather)}<span class="text-sm font-bold text-stone-600">${currentDayData.temp}</span><span class="text-xs text-stone-400 pl-1 border-l border-stone-300 ml-1">${currentDayData.location}</span>`;
             headerStatus.classList.remove('hidden');
@@ -381,16 +370,14 @@
                         <h2 class="text-lg font-bold text-stone-700">Day ${dayId.replace('day', '')} <span class="ml-2 text-sm font-normal text-stone-500">${currentDayData.location}</span></h2>
                     </div>
                     ${hasItems 
-                        ? currentDayData.items.map(item => renderItineraryItem(item)).join('')
-                        : '<div class="text-center py-10 text-stone-500 bg-white/50 rounded-xl border border-stone-200">此日期暫無自駕行程資料</div>'
+                        ? currentDayData.items.map(renderItineraryItem).join('')
+                        : '<div class="text-center py-10 text-stone-500 bg-white/50 rounded-xl border border-stone-200">此日期暫無行程資料</div>'
                     }
                 </div>
             `;
         }
 
-        // 【渲染函數 2】航班/住宿頁面
         function renderFlightsView() {
-            // 渲染航班卡片
             const flightsHtml = TRIP_DATA.flights.map(flight => `
                 <div class="bg-white/95 backdrop-blur-sm rounded-xl shadow-sm border border-stone-200 overflow-hidden p-5 mb-4">
                     <div class="flex items-center justify-between mb-4 border-b border-stone-100 pb-3">
@@ -411,7 +398,6 @@
                     </div>
                 </div>`).join('');
 
-            // 渲染住宿卡片
             const hotelsHtml = TRIP_DATA.hotels.map(hotel => `
                 <div class="bg-white/95 backdrop-blur-sm rounded-xl shadow-sm border border-stone-200 overflow-hidden p-0 mb-4">
                     <div class="h-60 bg-stone-200 relative overflow-hidden">
@@ -430,22 +416,16 @@
             return `<div class="space-y-4 animate-fade-in pb-20"><h2 class="text-xl font-bold text-stone-800 px-1">航班資訊</h2>${flightsHtml}<h2 class="text-xl font-bold text-stone-800 px-1 mt-8 pt-4 border-t border-stone-300/50">住宿資訊</h2>${hotelsHtml}</div>`;
         }
         
-        // 【渲染函數 3】自駕須知頁面 (含日本自駕注意事項、常用交通號誌、道路標線辨識、加油站使用指南)
         function renderDriveView() {
             return `
                 <div class="animate-fade-in space-y-6 pb-20">
-                    
-                    <!-- 1. 日本自駕注意事項 -->
                     <div>
                         <h2 class="text-xl font-bold text-stone-800 px-1 mb-3 flex items-center gap-2">
                             ${getIcon('car', "text-emerald-600", 24)} 日本自駕注意事項
                         </h2>
-
-                        <!-- 圖片 car.jpg -->
                         <div class="mb-4 rounded-xl overflow-hidden shadow-sm border border-stone-200">
                             <img src="car.jpg" alt="日本自駕注意事項" class="w-full h-auto object-cover" onerror="this.src='https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1000&auto=format&fit=crop';"/>
                         </div>
-
                         <div class="space-y-3">
                             ${DRIVE_NOTICES.map(item => `
                                 <div class="bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-stone-200 border-l-4 border-l-lime-500 flex gap-3">
@@ -459,7 +439,6 @@
                         </div>
                     </div>
 
-                    <!-- 2. 常用交通號誌 -->
                     <div>
                         <h2 class="text-xl font-bold text-stone-800 px-1 mb-3 flex items-center gap-2">
                             <span class="w-1.5 h-5 bg-stone-500 rounded-full inline-block"></span> 常用交通號誌
@@ -467,9 +446,7 @@
                         <div class="grid grid-cols-2 gap-3">
                             ${TRAFFIC_SIGNS.map(sign => `
                                 <div class="bg-white/95 backdrop-blur-sm p-3.5 rounded-xl shadow-sm border border-stone-200 text-center flex flex-col items-center justify-between">
-                                    <div class="my-2 flex items-center justify-center h-16 w-full">
-                                        ${sign.svg}
-                                    </div>
+                                    <div class="my-2 flex items-center justify-center h-16 w-full">${sign.svg}</div>
                                     <div class="mt-1">
                                         <div class="font-bold text-stone-800 text-sm">${sign.title}</div>
                                         <div class="text-[11px] text-stone-500 mt-0.5">${sign.desc}</div>
@@ -479,7 +456,6 @@
                         </div>
                     </div>
 
-                    <!-- 3. 道路標線辨識 -->
                     <div>
                         <h2 class="text-xl font-bold text-stone-800 px-1 mb-3 flex items-center gap-2">
                             <span class="w-1.5 h-5 bg-amber-500 rounded-full inline-block"></span> 道路標線辨識
@@ -497,14 +473,11 @@
                         </div>
                     </div>
 
-                    <!-- 4. 加油站使用指南 -->
                     <div>
                         <h2 class="text-xl font-bold text-stone-800 px-1 mb-3 flex items-center gap-2">
                             <span class="w-1.5 h-5 bg-sky-500 rounded-full inline-block"></span> 加油站使用指南
                         </h2>
                         <div class="space-y-3">
-                            
-                            <!-- 自助加油 -->
                             <div class="bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-stone-200 border-l-4 border-l-sky-500">
                                 <h3 class="font-bold text-sky-800 text-base mb-2 flex items-center gap-2">
                                     ${getIcon('droplets', "text-sky-500", 18)} 自助加油 (Self)
@@ -517,7 +490,6 @@
                                 </ul>
                             </div>
 
-                            <!-- 人工加油 -->
                             <div class="bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-stone-200 border-l-4 border-l-sky-500">
                                 <h3 class="font-bold text-sky-800 text-base mb-2 flex items-center gap-2">
                                     ${getIcon('droplets', "text-sky-500", 18)} 人工加油
@@ -529,7 +501,6 @@
                                 </ul>
                             </div>
 
-                            <!-- 油種辨識 -->
                             <div class="bg-white/95 backdrop-blur-sm p-4 rounded-xl shadow-sm border border-stone-200 border-l-4 border-l-red-500">
                                 <h3 class="font-bold text-red-800 text-base mb-2 flex items-center gap-2">
                                     ${getIcon('fuel', "text-red-500", 18)} 油種辨識
@@ -549,14 +520,11 @@
                                     </li>
                                 </ul>
                             </div>
-
                         </div>
                     </div>
-
                 </div>`;
         }
         
-        // 【渲染函數 4】地圖與連結頁面
         function renderMapView() {
             const linksHtml = TRIP_DATA.mapLinks.map(link => `
                 <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 bg-white/95 backdrop-blur-sm border border-stone-200 rounded-xl shadow-sm active:bg-stone-50 transition-colors">
@@ -565,13 +533,11 @@
             return `<div class="space-y-4 animate-fade-in pb-20"><h2 class="text-xl font-bold text-stone-800 px-1 flex items-center gap-2">${getIcon('map', "text-emerald-600", 24)}地圖與相關連結</h2><div class="space-y-3">${linksHtml}</div></div>`;
         }
 
-        // 【渲染函數 5】備註頁面
         function renderNotesView() {
             if (!TRIP_DATA.notes || TRIP_DATA.notes.length === 0) {
                 return `<div class="space-y-6 animate-fade-in pb-20"><h2 class="text-xl font-bold text-stone-800 px-1 flex items-center gap-2">${getIcon('notebook-pen', "text-pink-500", 24)}行程備註</h2><div class="text-center py-10 text-stone-500 bg-white/50 rounded-xl border border-stone-200">目前尚無備註資料</div></div>`;
             }
             
-            // 渲染備註內的卡片（支援文字與圖片）
             const notesHtml = TRIP_DATA.notes.map(note => `
                 <div class="bg-white/95 backdrop-blur-sm rounded-xl shadow-sm border border-stone-200 overflow-hidden mb-4">
                     <div class="p-4 border-b border-stone-100 bg-stone-50/50">
@@ -585,18 +551,15 @@
             return `<div class="space-y-4 animate-fade-in pb-20"><h2 class="text-xl font-bold text-stone-800 px-1 flex items-center gap-2">${getIcon('notebook-pen', "text-pink-500", 24)}行程備註</h2>${notesHtml}</div>`;
         }
 
-        // 渲染頁面底部版權與裝飾
         function renderFooter() {
             return `<div class="text-center pt-8 pb-4 opacity-80 mb-16"><div class="border-t border-stone-400/30 pt-2 px-4 inline-flex items-baseline gap-2"><span class="text-sm text-stone-500 font-medium tracking-wider">Created by</span><span class="text-4xl text-stone-600" style="font-family: 'Dancing Script', cursive">Wen</span></div></div>`;
         }
 
-        // 應用程式狀態管理
         let state = {
             activeTab: 'itinerary',
             selectedDayId: 'day1'
         };
         
-        // 畫面主更新控制器
         function updateView() {
             const mainContent = document.getElementById('main-content');
             const scrollerContainer = document.getElementById('date-scroller-container');
@@ -608,7 +571,6 @@
             scrollerContainer.classList.add('hidden');
             headerStatus.classList.add('hidden');
 
-            // 依據選擇的 Tab 決定渲染哪個畫面
             const views = {
                 itinerary: () => { 
                     contentHtml = renderItineraryView(state.selectedDayId, false); 
@@ -630,12 +592,9 @@
             
             mainContent.innerHTML = contentHtml + renderFooter();
             updateBottomNav();
-            
-            // 重新初始化 Lucide 圖示
             lucide.createIcons();
         }
 
-        // 更新頂部日期滑動列
         function updateDateScroller() {
             const scroller = document.getElementById('date-scroller');
             scroller.innerHTML = TRIP_DATA.itinerary.map(day => {
@@ -644,14 +603,12 @@
                 return `<button onclick="switchDay('${day.id}')" id="btn-${day.id}" class="flex-shrink-0 snap-center flex flex-col items-center justify-center w-14 h-16 rounded-xl border transition-all duration-300 active:scale-95 ${activeClasses}"><span class="text-[10px] font-medium uppercase leading-none mb-1">${day.date}</span><span class="text-lg font-black leading-none">${day.dayOfWeek}</span></button>`;
             }).join('');
             
-            // 滑動至選取的日期
             setTimeout(() => {
                 const selectedBtn = document.getElementById(`btn-${state.selectedDayId}`);
                 if (selectedBtn) selectedBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
             }, 50);
         }
 
-        // 更新底部導航列狀態
         function updateBottomNav() {
             const nav = document.getElementById('bottom-nav');
             nav.innerHTML = NAV_TABS.map(tab => {
@@ -661,15 +618,10 @@
             }).join('');
         }
 
-        // 切換 Tab 事件
         function switchTab(tabId) { state.activeTab = tabId; updateView(); }
-
-        // 切換 日期 事件
         function switchDay(dayId) { state.selectedDayId = dayId; updateView(); }
 
-        // 初始化
         document.addEventListener('DOMContentLoaded', updateView);
     </script>
 </body>
 </html>
-
