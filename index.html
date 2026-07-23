@@ -43,9 +43,85 @@
         .animate-fade-in-up, .animate-fade-in { animation: fadeInUp 0.4s ease-out forwards; }
         
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+
+        /* PWA 阻擋引導層動畫 */
+        @keyframes bounceSlow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-bounce-slow { animation: bounceSlow 2s infinite ease-in-out; }
     </style>
 </head>
 <body>
+    <!-- 強制加入主畫面阻擋與引導遮罩 (PWA Standalone Check Overlay) -->
+    <div id="pwa-gate-overlay" class="fixed inset-0 z-[9999] bg-stone-900/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <div class="bg-white/95 backdrop-blur-xl w-full max-w-sm rounded-3xl p-6 shadow-2xl border border-stone-100 flex flex-col items-center text-center animate-fade-in my-auto">
+            
+            <!-- 標題 -->
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold mb-3">
+                <i data-lucide="shield-alert" class="w-4 h-4"></i> 請先加入主畫面才能瀏覽
+            </div>
+            
+            <h2 class="text-xl font-black text-stone-800 tracking-tight">KUMAMOTO TRIP 2026</h2>
+            <p class="text-xs text-stone-500 mt-1 mb-4">請將此行程網頁加入手機主畫面，以獲取最佳 App 瀏覽體驗</p>
+
+            <!-- 全圖 kumamoto.jpg 顯示 -->
+            <div class="w-full bg-stone-100 rounded-2xl p-3 border border-stone-200/80 shadow-inner mb-5 flex flex-col items-center">
+                <div class="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden shadow-md border border-stone-300 bg-stone-200 flex items-center justify-center relative">
+                    <img src="kumamoto.jpg" alt="Kumamoto App Icon" class="w-full h-full object-contain bg-stone-300" onerror="this.src='https://images.unsplash.com/photo-1598284534720-305f6e409395?q=80&w=1000&auto=format&fit=crop';"/>
+                </div>
+                <span class="text-xs font-bold text-stone-600 mt-2.5">Kumamoto Trip 主畫面圖示</span>
+            </div>
+
+            <!-- 系統切換分頁 -->
+            <div class="w-full flex bg-stone-200/80 rounded-xl p-1 mb-4 text-xs font-bold">
+                <button id="pwa-tab-ios" onclick="switchPwaTab('ios')" class="flex-1 py-2 rounded-lg transition-all bg-white text-indigo-900 shadow-sm flex items-center justify-center gap-1">
+                    <i data-lucide="apple" class="w-3.5 h-3.5"></i> iPhone (Safari)
+                </button>
+                <button id="pwa-tab-android" onclick="switchPwaTab('android')" class="flex-1 py-2 rounded-lg transition-all text-stone-500 flex items-center justify-center gap-1">
+                    <i data-lucide="smartphone" class="w-3.5 h-3.5"></i> Android (Chrome)
+                </button>
+            </div>
+
+            <!-- iOS 操作步驟 -->
+            <div id="pwa-guide-ios" class="w-full text-left space-y-3 bg-stone-50 p-4 rounded-xl border border-stone-200/70 text-xs text-stone-700">
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <span>點擊 Safari 下方工具列的 <strong class="text-indigo-900">「分享」</strong> 圖示 <i data-lucide="share" class="inline w-3.5 h-3.5 text-indigo-600"></i></span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <span>在選單中選取 <strong class="text-indigo-900">「加入主畫面」</strong> <i data-lucide="plus-square" class="inline w-3.5 h-3.5 text-indigo-600"></i></span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <span>點擊右上角 <strong class="text-indigo-900">「新增」</strong>，即可從桌面開啟瀏覽！</span>
+                </div>
+            </div>
+
+            <!-- Android 操作步驟 -->
+            <div id="pwa-guide-android" class="hidden w-full text-left space-y-3 bg-stone-50 p-4 rounded-xl border border-stone-200/70 text-xs text-stone-700">
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <span>點擊 Chrome 右上角的 <strong class="text-emerald-900">「選單」</strong> 圖示 (三個點) <i data-lucide="more-vertical" class="inline w-3.5 h-3.5 text-emerald-600"></i></span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <span>選擇 <strong class="text-emerald-900">「新增至主螢幕」</strong> 或 <strong class="text-emerald-900">「安裝應用程式」</strong></span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <span>確認點擊 <strong class="text-emerald-900">「新增」</strong>，完成後由桌面開啟！</span>
+                </div>
+            </div>
+
+            <!-- 動態提示箭頭 -->
+            <div class="mt-4 flex items-center justify-center gap-1 text-[11px] font-bold text-indigo-600 animate-bounce-slow">
+                <i data-lucide="arrow-down" class="w-4 h-4"></i> 請依上述步驟將網頁加入主畫面
+            </div>
+        </div>
+    </div>
+
     <div class="h-[100dvh] flex flex-col md:max-w-md md:mx-auto shadow-2xl overflow-hidden relative select-none bg-stone-300">
         
         <!-- 背景圖層 -->
@@ -298,6 +374,49 @@
             const icon = WEATHER_ICONS[type] || WEATHER_ICONS.sunny;
             return getIcon(icon.name, `w-5 h-5 ${icon.class}`);
         };
+
+        // 檢查是否已加入主畫面（Standalone 獨立 App 模式）
+        function isStandaloneMode() {
+            return window.matchMedia('(display-mode: standalone)').matches ||
+                   window.navigator.standalone === true ||
+                   document.referrer.includes('android-app://');
+        }
+
+        function checkPwaGate() {
+            const gateOverlay = document.getElementById('pwa-gate-overlay');
+            if (isStandaloneMode()) {
+                gateOverlay.classList.add('hidden');
+            } else {
+                gateOverlay.classList.remove('hidden');
+                // 自動偵測系統並切換引導分頁
+                const isAndroid = /Android/i.test(navigator.userAgent);
+                if (isAndroid) {
+                    switchPwaTab('android');
+                } else {
+                    switchPwaTab('ios');
+                }
+            }
+        }
+
+        function switchPwaTab(type) {
+            const tabIos = document.getElementById('pwa-tab-ios');
+            const tabAndroid = document.getElementById('pwa-tab-android');
+            const guideIos = document.getElementById('pwa-guide-ios');
+            const guideAndroid = document.getElementById('pwa-guide-android');
+
+            if (type === 'ios') {
+                tabIos.className = "flex-1 py-2 rounded-lg transition-all bg-white text-indigo-900 shadow-sm flex items-center justify-center gap-1 font-bold";
+                tabAndroid.className = "flex-1 py-2 rounded-lg transition-all text-stone-500 flex items-center justify-center gap-1 font-bold";
+                guideIos.classList.remove('hidden');
+                guideAndroid.classList.add('hidden');
+            } else {
+                tabAndroid.className = "flex-1 py-2 rounded-lg transition-all bg-white text-emerald-900 shadow-sm flex items-center justify-center gap-1 font-bold";
+                tabIos.className = "flex-1 py-2 rounded-lg transition-all text-stone-500 flex items-center justify-center gap-1 font-bold";
+                guideAndroid.classList.remove('hidden');
+                guideIos.classList.add('hidden');
+            }
+            lucide.createIcons();
+        }
 
         function renderItineraryItem(item) {
             if (item.type === 'image') {
@@ -621,7 +740,10 @@
         function switchTab(tabId) { state.activeTab = tabId; updateView(); }
         function switchDay(dayId) { state.selectedDayId = dayId; updateView(); }
 
-        document.addEventListener('DOMContentLoaded', updateView);
+        document.addEventListener('DOMContentLoaded', () => {
+            checkPwaGate();
+            updateView();
+        });
     </script>
 </body>
 </html>
