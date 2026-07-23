@@ -2,15 +2,19 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Kumamoto Trip 2026</title>
     
+    <!-- PWA & Web App 支援設定 -->
+    <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Kumamoto Trip"> 
+    <meta name="theme-color" content="#d6d3d1">
     
     <link rel="apple-touch-icon" href="kumamoto.jpg">
     <link rel="icon" href="kumamoto.jpg">
+    <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Kumamoto%20Trip%202026%22%2C%22short_name%22%3A%22KumamotoTrip%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23d6d3d1%22%2C%22theme_color%22%3A%22%23d6d3d1%22%7D">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
@@ -21,7 +25,6 @@
             width: 100%;
             height: 100%;
             overflow: hidden; 
-            position: fixed;  
             font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background-color: #d6d3d1; 
             color: #1c1917; 
@@ -176,19 +179,19 @@
             backupItinerary: [
                 { id: "day1", date: "09/04", dayOfWeek: "五", location: "台北 ➔ 熊本", weather: "sunny", temp: "28°C", items: [
                     { type: "transport", time: "07:30", title: "搭乘 JX846 飛往熊本", mapUrl: "https://maps.app.goo.gl/wbkMbuNTzSuTo1gS7", note: "預計 10:45 抵達熊本機場 (KMJ)。\n\n租車自駕。" },
-                    { type: "visit", time: "12:00", title: "ナミ像", tag: "收集", highlight: "娜美銅像", mapUrl: "https://maps.app.goo.gl/H8h7FzGXdHGTKUyy9" },
-					{ type: "shrine", time: "12:30", title: "阿蘇白水龍神權現(白蛇神社)", mapUrl: "https://maps.app.goo.gl/TCoeZUspY9rcvTVi8", stampUrl: "https://www.aso-sirohebi.com/pg6067814.html", note: "營業時間：08:30–16:30" },
-					{ type: "visit", time: "14:00", title: "ミナテラス 益城町交流情報センター", tag: "收集", highlight: "香吉士銅像", mapUrl: "https://maps.app.goo.gl/3SXwSmVtAPu2vvz79", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：8:30～12:00、13:00～17:00\n<span class='text-red-500 font-bold'>※每週一公休</span>\n（此處設有海賊王香吉士銅像）" },
-                    { type: "visit", time: "14:30", title: "益城町役場", tag: "收集", mapUrl: "https://maps.app.goo.gl/ptWsbVC1q2bmn3kN7", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "【領取地點與時間】\n• 平日：益城町役場 総合案内所 (8:30～12:00、13:00～17:00)\n• 假日：益城町役場 管理室 (8:30～17:00)" },            
+                    { type: "visit", time: "12:00", title: "ナミ像", tag: "收集", highlight: "娜美銅像", mapUrl: "https://maps.app.goo.gl/H8h7FzGXdHGTKUyy9", routeUrl: "https://maps.app.goo.gl/cM8DEVATMcVT4ibw6?g_st=ic", note: "🚗 距離 8.1 公里，車程約 13 分鐘" },
+                    { type: "shrine", time: "12:30", title: "阿蘇白水龍神權現(白蛇神社)", mapUrl: "https://maps.app.goo.gl/TCoeZUspY9rcvTVi8", stampUrl: "https://www.aso-sirohebi.com/pg6067814.html", routeUrl: "https://maps.app.goo.gl/sN4f7v5fAeaZgbEw5?g_st=ic", note: "營業時間：08:30–16:30\n🚗 距離 16 公里，車程約 22 分鐘" },
+                    { type: "visit", time: "14:00", title: "ミナテラス 益城町交流情報センター", tag: "收集", highlight: "香吉士銅像", mapUrl: "https://maps.app.goo.gl/3SXwSmVtAPu2vvz79", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", routeUrl: "https://maps.app.goo.gl/KkxefhbcjjQfVVgs5?g_st=ic", note: "營業時間：8:30～12:00、13:00～17:00\n<span class='text-red-500 font-bold'>※每週一公休</span>\n（此處設有海賊王香吉士銅像）\n🚗 距離 33 公里，車程約 42 分鐘" },
+                    { type: "visit", time: "14:30", title: "益城町役場", tag: "收集", mapUrl: "https://maps.app.goo.gl/ptWsbVC1q2bmn3kN7", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", routeUrl: "https://maps.app.goo.gl/E4pTdYYEvHickvKb7?g_st=ic", note: "【領取地點與時間】\n• 平日：益城町役場 総合案内所 (8:30～12:00、13:00～17:00)\n• 假日：益城町役場 管理室 (8:30～17:00)\n🚗 距離 1.8 公里，車程約 5 分鐘" },            
                     { type: "visit", time: "15:00", title: "熊本市上下水道局", tag: "收集", mapUrl: "https://maps.app.goo.gl/SL6JizMNXAcGNx7Z6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：平日 08:30–17:15\n<span class='text-red-500 font-bold'>※六日及國定假日公休</span>" },
                     { type: "visit", time: "15:30", title: "水前寺競技場", tag: "收集", mapUrl: "https://maps.app.goo.gl/EjbjyAo4TFTNGAex7", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/41052/", note: "營業時間：08:30–18:00\n<span class='text-red-500 font-bold'>※第1和第3個星期三公休、年底年初公休</span>" },
                     { type: "visit", time: "15:45", title: "熊本市綜合體育館・青年會館", tag: "收集", mapUrl: "https://maps.app.goo.gl/76tTLdtR9yBKJDXF6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休（若逢假日則順延）</span>" },
                     { type: "visit", time: "16:00", title: "花畑広場服務棟", tag: "收集", mapUrl: "https://maps.app.goo.gl/ErHtT3vUgC6qLKws8", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/39924/", note: "營業時間：10:00–18:00" },     
-					{ type: "visit", time: "16:30", title: "熊本市水の科學館", tag: "收集", mapUrl: "https://maps.app.goo.gl/XUNH3eMiLxjxdzhe9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–17:00\n<span class='text-red-500 font-bold'>※每週一公休、年底年初公休</span>" },		
-				  	{ type: "shrine", time: "17:30", title: "彦嶽宮 下宮", mapUrl: "https://maps.app.goo.gl/VNWrkZp4o346zYgy9", stampUrl: "https://hikotakegu.localinfo.jp/posts/categories/1143705/page/1?type=grid", note: "營業時間：08:00–17:00" },
-					{ type: "visit", time: "18:30", title: "パークドーム熊本", tag: "收集", mapUrl: "https://maps.app.goo.gl/WfPf6PF43WaABRoE9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休" },
+                    { type: "visit", time: "16:30", title: "熊本市水の科學館", tag: "收集", mapUrl: "https://maps.app.goo.gl/XUNH3eMiLxjxdzhe9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–17:00\n<span class='text-red-500 font-bold'>※每週一公休、年底年初公休</span>" },		
+                    { type: "shrine", time: "17:30", title: "彦嶽宮 下宮", mapUrl: "https://maps.app.goo.gl/VNWrkZp4o346zYgy9", stampUrl: "https://hikotakegu.localinfo.jp/posts/categories/1143705/page/1?type=grid", note: "營業時間：08:00–17:00" },
+                    { type: "visit", time: "18:30", title: "パークドーム熊本", tag: "收集", mapUrl: "https://maps.app.goo.gl/WfPf6PF43WaABRoE9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休" },
                     { type: "visit", time: "19:00", title: "熊本県民総合運動公園 受付", tag: "收集", mapUrl: "https://maps.app.goo.gl/2mKfNJLhoL3PTK5S9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週二公休" },              
-					{ type: "shop", time: "20:00", title: "上下通商店街", highlight: "熊本最熱鬧商圈", mapUrl: "https://maps.app.goo.gl/cXt58KbZsi9PsN1KA", note: "【逛街筆記】\n熊本市內最大的商店街，分為「上通」與「下通」，周邊還有新市街。具有採光遮雨棚，無論天氣如何都好逛。\n\n【美食推薦】\n• 熊本拉麵：黑亭拉麵、桂花拉麵 (特色炸蒜片與麻油香)\n• 炸豬排：勝烈亭 (熊本必吃米其林推薦豬排，建議避開尖峰時段)\n• 馬肉刺身：菅乃屋 (想體驗在地特色可嘗試)\n\n【購物指南】\n• 藥妝店：松本清、大國藥妝、Sundrug 均有，可比價。\n• 百貨：鶴屋百貨 (內有熊本熊廣場)。\n• 伴手禮：各類熊本熊周邊、陣太鼓等傳統點心。" }
+                    { type: "shop", time: "20:00", title: "上下通商店街", highlight: "熊本最熱鬧商圈", mapUrl: "https://maps.app.goo.gl/cXt58KbZsi9PsN1KA", note: "【逛街筆記】\n熊本市內最大的商店街，分為「上通」與「下通」，周邊還有新市街。具有採光遮雨棚，無論天氣如何都好逛。\n\n【美食推薦】\n• 熊本拉麵：黑亭拉麵、桂花拉麵 (特色炸蒜片與麻油香)\n• 炸豬排：勝烈亭 (熊本必吃米其林推薦豬排，建議避開尖峰時段)\n• 馬肉刺身：菅乃屋 (想體驗在地特色可嘗試)\n\n【購物指南】\n• 藥妝店：松本清、大國藥妝、Sundrug 均有，可比價。\n• 百貨：鶴屋百貨 (內有熊本熊廣場)。\n• 伴手禮：各類熊本熊周邊、陣太鼓等傳統點心。" }
                 ]},
                 { id: "day2", date: "09/05", dayOfWeek: "六", location: "熊本 ➔ 福岡", weather: "sunny", temp: "26°C", items: [
                     { type: "visit", time: "08:30", title: "リブワーク藤崎台球場", tag: "收集", mapUrl: "https://maps.app.goo.gl/XWJx7Vrkm3vyAXEZ6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：08:30–19:30\n<span class='text-red-500 font-bold'>※平日公休（僅限星期六、日提供領取）</span>" },
@@ -196,7 +199,7 @@
                     { type: "visit", time: "10:00", title: "觀光休憩廣場TAMA", tag: "收集", mapUrl: "https://maps.app.goo.gl/dxdqZe8KcukKbwxt5", note: "營業時間：09:00～19:00\n<span class='text-red-500 font-bold'>※年中無休</span>" },
                     { type: "visit", time: "11:30", title: "新鳥栖駅観光案内所", tag: "收集", mapUrl: "https://maps.app.goo.gl/9KBviu9gzz82DFEz5", bookingUrl: "https://www.city.tosu.lg.jp/soshiki/18/107130.html", note: "營業時間：09:00～18:00\n<span class='text-red-500 font-bold'>※年中無休</span>" },
                     { type: "visit", time: "12:00", title: "博多南駅前ビル ナカイチ", tag: "收集", mapUrl: "https://maps.app.goo.gl/H82BMtxRXUimbBwu6", bookingUrl: "https://www.city.tosu.lg.jp/soshiki/18/107130.html", note: "營業時間：\n① 08:30～17:00 (平日)\n② 10:00～18:00 (土日祝日 / 六日及國定假日)" },
-				    { type: "shrine", time: "13:30", title: "太宰府天滿宮", mapUrl: "https://maps.app.goo.gl/SB5FAvUH1JeYwBgEA", note: "營業時間：06:00–19:00 (依季節微調)\n\n【平日/假日地點說明】\n• 境內自由參拜；授所/御朱印開辦時間為 08:30–17:00（全年無休）。\n\n• 供奉學問之神菅原道真，表參道上有著名的梅枝餅，以及由隈研吾設計的星巴克特色店。" },
+                    { type: "shrine", time: "13:30", title: "太宰府天滿宮", mapUrl: "https://maps.app.goo.gl/SB5FAvUH1JeYwBgEA", note: "營業時間：06:00–19:00 (依季節微調)\n\n【平日/假日地點說明】\n• 境內自由參拜；授所/御朱印開辦時間為 08:30–17:00（全年無休）。\n\n• 供奉學問之神菅原道真，表參道上有著名的梅枝餅，以及由隈研吾設計的星巴克特色店。" },
                     { type: "visit", time: "14:45", title: "太宰府館", tag: "收集", mapUrl: "https://maps.app.goo.gl/YNs9N1a84BMprRQx5", bookingUrl: "https://www.city.dazaifu.lg.jp/soshiki/22/22649.html", note: "營業時間：10:00–18:00\n<span class='text-red-500 font-bold'>※每週三公休、年底年初公休</span>" },
                     { type: "visit", time: "15:45", title: "大宰府展示館", tag: "收集", mapUrl: "https://maps.app.goo.gl/MmyuyhghYFAHFdyq9", bookingUrl: "https://www.city.dazaifu.lg.jp/soshiki/22/22649.html", note: "營業時間：09:00–16:30\n<span class='text-red-500 font-bold'>※每週一公休（若逢假日則順延至隔日）</span>\n\n• 介紹大宰府的政廳遺址與出土文物。營業時間只到 16:30，請注意入館時間！" },
                     { type: "visit", time: "16:45", title: "太宰府市綜合體育館", tag: "收集", mapUrl: "https://maps.app.goo.gl/WzT1Rhg4mToAXshu7", bookingUrl: "https://www.city.dazaifu.lg.jp/soshiki/22/22649.html", note: "營業時間：09:00–22:00\n<span class='text-red-500 font-bold'>※每週一公休（若逢假日則順延至隔日）</span>" },
@@ -213,9 +216,9 @@
                 { id: "day4", date: "09/07", dayOfWeek: "一", location: "福岡 ➔ 北九州 ➔ 熊本", weather: "sunny", temp: "27°C", items: [
                     { type: "visit", time: "08:00", title: "福岡県庁", tag: "收集", mapUrl: "https://maps.app.goo.gl/LWjtZ6sXtDe1iWKV9", bookingUrl: "https://www.pref.fukuoka.lg.jp/contents/manholecard.html", note: "營業時間：08:30–17:45\n<span class='text-red-500 font-bold'>※六日及國定假日公休</span>\n• 人孔蓋卡領取點位於縣廳大樓內，平日上班時間前往限定，假日不發放。" },
                     { type: "shrine", time: "08:30", title: "十日恵比須神社", mapUrl: "https://maps.app.goo.gl/QkyHJKqFVDqH4UgQ7?g_st=ic", stampUrl: "https://www.tooka-ebisu.or.jp/giving/", note: "營業時間：09:30–17:30" },
-				    { type: "shrine", time: "09:30", title: "筑前國一之宮 筥崎宮", mapUrl: "https://maps.app.goo.gl/be7XGR4PuPAXCoEb9", stampUrl: "https://hakozakigu.or.jp/omamori/", note: "營業時間：08:30–17:30" },
-		            { type: "visit", time: "08:00", title: "古賀市役所", tag: "收集", mapUrl: "https://maps.app.goo.gl/ur5D3Dek8C7xTZMM9", bookingUrl: "https://www.city.koga.fukuoka.jp/cityhall/work/jougesuido/s_jigyou/s_jigyou_2/007.php", note: "【平日】9:00～16:00" }
-			    ]},
+                    { type: "shrine", time: "09:30", title: "筑前國一之宮 筥崎宮", mapUrl: "https://maps.app.goo.gl/be7XGR4PuPAXCoEb9", stampUrl: "https://hakozakigu.or.jp/omamori/", note: "營業時間：08:30–17:30" },
+                    { type: "visit", time: "08:00", title: "古賀市役所", tag: "收集", mapUrl: "https://maps.app.goo.gl/ur5D3Dek8C7xTZMM9", bookingUrl: "https://www.city.koga.fukuoka.jp/cityhall/work/jougesuido/s_jigyou/s_jigyou_2/007.php", note: "【平日】9:00～16:00" }
+                ]},
                 { id: "day5", date: "09/08", dayOfWeek: "二", location: "熊本 ➔ 台北", weather: "cloudy", temp: "25°C", items: [
                     { type: "transport", time: "09:00", title: "前往熊本機場", mode: "bus", bookingUrl: "https://www.kumamoto-airport.co.jp/pressrelease-media/timetable-limousine_tw.pdf", mapUrl: "https://maps.app.goo.gl/wbkMbuNTzSuTo1gS7", note: "【機場巴士攻略】\n• 從櫻町巴士總站或熊本車站搭乘利木津巴士直達熊本機場。\n• 車程約 40-50 分鐘，建議在 09:30 前抵達機場櫃檯辦理登機手續。" },
                     { type: "transport", time: "11:55", title: "搭乘 JX847 返台", mapUrl: "https://maps.app.goo.gl/wbkMbuNTzSuTo1gS7", note: "【航班資訊】\n• 11:55 熊本 (KMJ) 起飛 ➔ 13:20 抵達台北 (TPE)。\n• 結束充實美好的熊本、佐賀與福岡「人孔蓋卡」及「神社」收集之旅！" }
@@ -348,6 +351,7 @@
                         <div class="flex gap-2 shrink-0"> 
                             ${item.bookingUrl ? `<a href="${item.bookingUrl}" target="_blank" class="p-2 bg-red-50 text-red-600 rounded-full active:scale-95 shrink-0" title="資訊網站">${getIcon('circle-alert', "", 18)}</a>` : ''}
                             ${item.stampUrl ? `<a href="${item.stampUrl}" target="_blank" class="p-2 bg-rose-50 text-rose-600 rounded-full active:scale-95 shrink-0" title="紀念章網址">${getIcon('stamp', "", 18)}</a>` : ''}
+                            ${item.routeUrl ? `<a href="${item.routeUrl}" target="_blank" class="p-2 bg-emerald-50 text-emerald-600 rounded-full active:scale-95 shrink-0" title="路線導航">${getIcon('route', "", 18)}</a>` : ''}
                             <a href="${destinationUrl}" target="_blank" class="p-2 bg-blue-50 text-blue-600 rounded-full active:scale-95 shrink-0" title="地圖導航">${getIcon('navigation', "", 18)}</a>
                         </div>
                     </div>
@@ -668,3 +672,4 @@
     </script>
 </body>
 </html>
+
