@@ -26,7 +26,7 @@
             height: 100%;
             overflow: hidden; 
             font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-            background-color: #d6d3d1; 
+            background-color: #f4f4f5; 
             color: #1c1917; 
             overscroll-behavior: none; 
         }
@@ -45,8 +45,94 @@
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
     </style>
 </head>
-<body>
-    <div class="h-[100dvh] flex flex-col md:max-w-md md:mx-auto shadow-2xl overflow-hidden relative select-none bg-stone-300">
+<body class="bg-[#f4f4f5]">
+
+    <!-- PWA 安裝引導 overlay (未加入主畫面時顯示) -->
+    <div id="pwa-install-overlay" class="fixed inset-0 z-[9999] bg-[#f4f4f5] overflow-y-auto flex flex-col items-center justify-center p-4 select-none">
+        <div class="w-full max-w-sm flex flex-col items-center animate-fade-in py-6">
+            
+            <!-- 警示標籤 -->
+            <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-red-100 text-red-600 text-xs font-bold mb-4 border border-red-200/60 shadow-sm">
+                <i data-lucide="shield-alert" class="w-4 h-4"></i>
+                <span>請先加入主畫面才能瀏覽</span>
+            </div>
+
+            <!-- 標題與說明 -->
+            <h1 class="text-2xl font-black text-stone-900 tracking-tight text-center mb-1.5">
+                KUMAMOTO TRIP 2026
+            </h1>
+            <p class="text-xs text-stone-500 font-medium text-center mb-6 max-w-[280px] leading-relaxed">
+                請將此行程網頁加入手機主畫面，以獲取最佳 App 瀏覽體驗
+            </p>
+
+            <!-- 圖示預覽卡片 -->
+            <div class="w-full bg-stone-100/90 rounded-2xl p-6 border border-stone-200/80 shadow-sm flex flex-col items-center mb-5">
+                <div class="w-32 h-32 bg-white rounded-3xl shadow-md overflow-hidden mb-3.5 border border-stone-200/60 flex items-center justify-center p-0">
+                    <img src="kumamoto.jpg" alt="Kumamoto Trip" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/200x200/d6d3d1/1c1917?text=Kumamoto+Trip';"/>
+                </div>
+                <p class="text-xs font-bold text-stone-600">Kumamoto Trip 主畫面圖示</p>
+            </div>
+
+            <!-- OS 分頁切換器 -->
+            <div class="w-full bg-stone-200/80 p-1 rounded-xl flex mb-4 text-xs font-medium border border-stone-300/40">
+                <button id="tab-ios" onclick="switchPwaTab('ios')" class="flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all bg-white text-indigo-900 shadow-sm font-bold">
+                    <i data-lucide="apple" class="w-4 h-4"></i>
+                    <span>iPhone (Safari)</span>
+                </button>
+                <button id="tab-android" onclick="switchPwaTab('android')" class="flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all text-stone-500 hover:text-stone-800">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i>
+                    <span>Android (Chrome)</span>
+                </button>
+            </div>
+
+            <!-- iOS 操作步驟 -->
+            <div id="steps-ios" class="w-full bg-white rounded-2xl p-4 shadow-sm border border-stone-200/60 space-y-3.5 text-xs text-stone-700">
+                <div class="flex items-start gap-3">
+                    <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <p class="leading-relaxed">點擊 Safari 下方工具列的「<strong class="text-indigo-600 font-bold">分享</strong>」圖示 <i data-lucide="share" class="inline w-3.5 h-3.5 text-indigo-600 stroke-[2.5]"></i></p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <p class="leading-relaxed">在選單中選取「<strong class="text-indigo-600 font-bold">加入主畫面</strong>」 <i data-lucide="plus-square" class="inline w-3.5 h-3.5 text-indigo-600 stroke-[2.5]"></i></p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <p class="leading-relaxed">點擊右上角「<strong class="text-indigo-600 font-bold">新增</strong>」，即可從桌面開啟瀏覽！</p>
+                </div>
+            </div>
+
+            <!-- Android 操作步驟 -->
+            <div id="steps-android" class="w-full bg-white rounded-2xl p-4 shadow-sm border border-stone-200/60 space-y-3.5 text-xs text-stone-700 hidden">
+                <div class="flex items-start gap-3">
+                    <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <p class="leading-relaxed">點擊 Chrome 右上角的「<strong class="text-indigo-600 font-bold">選單</strong>」圖示 ( <i data-lucide="more-vertical" class="inline w-3.5 h-3.5 text-indigo-600 stroke-[2.5]"></i> )</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <p class="leading-relaxed">在選單中選取「<strong class="text-indigo-600 font-bold">新增至主畫面</strong>」或「<strong class="text-indigo-600 font-bold">安裝應用程式</strong>」</p>
+                </div>
+                <div class="flex items-start gap-3">
+                    <span class="w-5 h-5 rounded-full bg-indigo-600 text-white font-bold text-[11px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <p class="leading-relaxed">點擊「<strong class="text-indigo-600 font-bold">新增</strong>」，即可從桌面開啟瀏覽！</p>
+                </div>
+            </div>
+
+            <!-- 底部提示文字 -->
+            <div class="mt-6 flex items-center gap-1.5 text-indigo-600 font-bold text-xs">
+                <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce"></i>
+                <span>請依上述步驟將網頁加入主畫面</span>
+            </div>
+
+            <!-- 署名 -->
+            <div class="mt-8 text-center opacity-80">
+                <span class="text-xs text-stone-400 font-medium tracking-wider">Created by </span>
+                <span class="text-2xl text-stone-600" style="font-family: 'Dancing Script', cursive">Wen</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要應用程式內容 (從主畫面開啟時啟用) -->
+    <div id="app-main-wrapper" class="hidden h-[100dvh] flex flex-col md:max-w-md md:mx-auto shadow-2xl overflow-hidden relative select-none bg-stone-300">
         
         <!-- 背景圖層 -->
         <div class="fixed inset-0 z-0 pointer-events-none md:max-w-md md:mx-auto">
@@ -79,6 +165,45 @@
     </div>
 
     <script>
+        // PWA Standalone 模式檢測與分頁邏輯
+        function checkStandalone() {
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
+                || window.navigator.standalone === true 
+                || document.referrer.includes('android-app://')
+                || new URLSearchParams(window.location.search).get('bypass') === 'true';
+
+            const pwaOverlay = document.getElementById('pwa-install-overlay');
+            const mainApp = document.getElementById('app-main-wrapper');
+
+            if (isStandalone) {
+                pwaOverlay.classList.add('hidden');
+                mainApp.classList.remove('hidden');
+            } else {
+                pwaOverlay.classList.remove('hidden');
+                mainApp.classList.add('hidden');
+            }
+        }
+
+        function switchPwaTab(os) {
+            const tabIos = document.getElementById('tab-ios');
+            const tabAndroid = document.getElementById('tab-android');
+            const stepsIos = document.getElementById('steps-ios');
+            const stepsAndroid = document.getElementById('steps-android');
+
+            if (os === 'ios') {
+                tabIos.className = 'flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all bg-white text-indigo-900 shadow-sm font-bold';
+                tabAndroid.className = 'flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all text-stone-500 hover:text-stone-800 font-medium';
+                stepsIos.classList.remove('hidden');
+                stepsAndroid.classList.add('hidden');
+            } else {
+                tabAndroid.className = 'flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all bg-white text-indigo-900 shadow-sm font-bold';
+                tabIos.className = 'flex-1 py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 transition-all text-stone-500 hover:text-stone-800 font-medium';
+                stepsAndroid.classList.remove('hidden');
+                stepsIos.classList.add('hidden');
+            }
+            lucide.createIcons();
+        }
+
         const TRIP_DATA = {
             flights: [
                 { 
@@ -153,7 +278,7 @@
                     { type: "visit", time: "08:00", title: "ミナテラス 益城町交流情報センター", tag: "收集", highlight: "香吉士銅像", mapUrl: "https://maps.app.goo.gl/3SXwSmVtAPu2vvz79", bookingUrl: "https://www.town.mashiki.lg.jp/kiji0037336/index.html", note: "營業時間：8:30～12:00、13:00～17:00\n<span class='text-red-500 font-bold'>※每週一公休</span>\n（此處設有海賊王香吉士銅像）" },
                     { type: "visit", time: "09:00", title: "益城町役場", tag: "收集", mapUrl: "https://maps.app.goo.gl/ptWsbVC1q2bmn3kN7", bookingUrl: "https://www.town.mashiki.lg.jp/kiji0037336/index.html", note: "【領取地點與時間】\n• 平日：益城町役場 総合案内所 (8:30～12:00、13:00～17:00)\n• 假日：益城町役場 管理室 (8:30～17:00)" },
                     { type: "visit", time: "11:30", title: "リブワーク藤崎台球場", tag: "收集", mapUrl: "https://maps.app.goo.gl/XWJx7Vrkm3vyAXEZ6", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：08:30–19:30\n<span class='text-red-500 font-bold'>※平日公休（僅限星期六、日提供領取）</span>" },
-                    { type: "visit", time: "12:30", title: "熊本県立総合体育館", tag: "收集", mapUrl: "https://maps.app.goo.gl/8YNaibwokNY5jApj8", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週三公休、年底年初公休</span>" },
+                    { type: "visit", time: "12:30", title: "熊本県立総合體育館", tag: "收集", mapUrl: "https://maps.app.goo.gl/8YNaibwokNY5jApj8", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–21:00\n<span class='text-red-500 font-bold'>※每週三公休、年底年初公休</span>" },
                     { type: "visit", time: "13:30", title: "熊本市水の科學館", tag: "收集", mapUrl: "https://maps.app.goo.gl/XUNH3eMiLxjxdzhe9", bookingUrl: "https://www.kumamoto-waterworks.jp/waterworks_article/19974/", note: "營業時間：09:00–17:00\n<span class='text-red-500 font-bold'>※每週一公休、年底年初公休</span>" },
                     { type: "visit", time: "16:00", title: "觀光休憩廣場TAMA", tag: "收集", mapUrl: "https://maps.app.goo.gl/dxdqZe8KcukKbwxt5", note: "營業時間：09:00～19:00\n<span class='text-red-500 font-bold'>※年中無休</span>" },
                     { type: "visit", time: "17:30", title: "新鳥栖駅観光案内所", tag: "收集", mapUrl: "https://maps.app.goo.gl/9KBviu9gzz82DFEz5", bookingUrl: "https://www.city.tosu.lg.jp/soshiki/18/107130.html", note: "營業時間：09:00～18:00\n<span class='text-red-500 font-bold'>※年中無休</span>" },
@@ -670,7 +795,11 @@
         function switchTab(tabId) { state.activeTab = tabId; updateView(); }
         function switchDay(dayId) { state.selectedDayId = dayId; updateView(); }
 
-        document.addEventListener('DOMContentLoaded', updateView);
+        document.addEventListener('DOMContentLoaded', () => {
+            checkStandalone();
+            updateView();
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
