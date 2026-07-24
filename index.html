@@ -60,7 +60,67 @@
     </style>
 </head>
 <body>
-    <div class="w-full h-full h-[100dvh] flex flex-col md:max-w-md md:mx-auto shadow-2xl overflow-hidden relative select-none bg-stone-300">
+
+    <!-- 1. 強制加入主畫面引導畫面 (當非 Standalone 模式開啟時顯示) -->
+    <div id="pwa-guide-container" class="hidden fixed inset-0 z-[9999] bg-[#f4f4f6] overflow-y-auto font-sans text-stone-800 flex flex-col justify-between items-center px-4 py-8 select-none">
+        <div class="w-full max-w-sm mx-auto flex flex-col items-center text-center space-y-5 my-auto">
+            
+            <!-- 頂部紅底警告標籤 -->
+            <div class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-red-100/90 text-red-600 text-xs font-bold border border-red-200/60 shadow-sm">
+                <i data-lucide="shield-alert" class="w-4 h-4 text-red-500"></i>
+                <span>請先加入主畫面才能瀏覽</span>
+            </div>
+
+            <!-- 主標題與說明文字 -->
+            <div class="space-y-1">
+                <h1 class="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">KUMAMOTO TRIP 2026</h1>
+                <p class="text-xs sm:text-sm text-stone-500 font-medium px-2">請將此行程網頁加入手機主畫面，以獲取最佳 App 瀏覽體驗</p>
+            </div>
+
+            <!-- 主畫面圖示卡片 (全圖 kumamoto.jpg) -->
+            <div class="w-full bg-white rounded-3xl p-6 shadow-sm border border-stone-200/70 flex flex-col items-center justify-center">
+                <div class="w-36 h-36 sm:w-40 sm:h-40 rounded-3xl overflow-hidden flex items-center justify-center bg-stone-100 shadow-sm border border-stone-100 p-1">
+                    <img src="kumamoto.jpg" alt="Kumamoto Trip 主畫面圖示" class="w-full h-full object-cover rounded-2xl" onerror="this.onerror=null; this.src='https://placehold.co/300x300/1c1917/ffffff?text=Kumamoto+Trip';">
+                </div>
+                <p class="text-stone-600 text-xs sm:text-sm font-semibold mt-4">Kumamoto Trip 主畫面圖示</p>
+            </div>
+
+            <!-- iPhone / Android 切換 Tab -->
+            <div class="w-full bg-stone-200/80 p-1 rounded-2xl flex gap-1">
+                <button id="btn-guide-ios" onclick="switchGuideTab('ios')" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all duration-200 bg-white text-indigo-900 shadow-sm">
+                    <i data-lucide="apple" class="w-4 h-4 mb-0.5"></i>
+                    <span>iPhone (Safari)</span>
+                </button>
+                <button id="btn-guide-android" onclick="switchGuideTab('android')" class="flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all duration-200 text-stone-500 hover:text-stone-800">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i>
+                    <span>Android (Chrome)</span>
+                </button>
+            </div>
+
+            <!-- 步驟引導內容區域 -->
+            <div id="guide-step-content" class="w-full bg-white rounded-2xl p-5 shadow-sm border border-stone-200/70 text-left space-y-4 text-xs sm:text-sm">
+                <!-- JS 動態寫入步驟 -->
+            </div>
+
+            <!-- 底部指引箭頭 -->
+            <div class="flex items-center justify-center gap-1.5 text-indigo-600 font-bold text-xs sm:text-sm pt-1 animate-pulse">
+                <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                <span>請依上述步驟將網頁加入主畫面</span>
+            </div>
+
+        </div>
+
+        <!-- 引導畫面頁尾 Created by Wen -->
+        <div class="text-center pt-6 pb-2 opacity-80 cursor-pointer select-none" onclick="handleSecretUnlock()" title="Created by Wen">
+            <div class="inline-flex items-baseline gap-2">
+                <span class="text-xs text-stone-400 font-medium tracking-wider">Created by</span>
+                <span class="text-3xl text-stone-600" style="font-family: 'Dancing Script', cursive">Wen</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. 行程主應用程式 (僅在 Standalone 模式開啟時顯示) -->
+    <div id="app-container" class="w-full h-full h-[100dvh] flex flex-col md:max-w-md md:mx-auto shadow-2xl overflow-hidden relative select-none bg-stone-300">
         
         <!-- 背景圖層 -->
         <div class="fixed inset-0 z-0 pointer-events-none md:max-w-md md:mx-auto">
@@ -320,6 +380,37 @@
             { id: 'map', label: '地圖', icon: 'map', color: 'text-emerald-600' },
             { id: 'notes', label: '備註', icon: 'notebook-pen', color: 'text-pink-600' }
         ];
+
+        const GUIDE_STEPS = {
+            ios: [
+                {
+                    num: 1,
+                    text: '點擊 Safari 下方工具列的「 <strong>分享</strong> 」圖示 <i data-lucide="share" class="w-4 h-4 inline-block text-indigo-600 ml-0.5 mb-0.5"></i>'
+                },
+                {
+                    num: 2,
+                    text: '在選單中選取「 <strong>加入主畫面</strong> 」 <i data-lucide="plus-square" class="w-4 h-4 inline-block text-indigo-600 ml-0.5 mb-0.5"></i>'
+                },
+                {
+                    num: 3,
+                    text: '點擊右上角「 <strong>新增</strong> 」，即可從桌面開啟瀏覽！'
+                }
+            ],
+            android: [
+                {
+                    num: 1,
+                    text: '點擊 Chrome 右上角選單圖示 ( <strong>三點圖示</strong> ) <i data-lucide="more-vertical" class="w-4 h-4 inline-block text-indigo-600 ml-0.5 mb-0.5"></i>'
+                },
+                {
+                    num: 2,
+                    text: '在選單中選取「 <strong>加到主畫面</strong> 」或「 <strong>安裝應用程式</strong> 」 <i data-lucide="download" class="w-4 h-4 inline-block text-indigo-600 ml-0.5 mb-0.5"></i>'
+                },
+                {
+                    num: 3,
+                    text: '點擊「 <strong>新增 / 安裝</strong> 」，即可從桌面開啟瀏覽！'
+                }
+            ]
+        };
 
         const getGoogleMapUrl = (name) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
         const getIcon = (name, classes = "", size = 24) => `<i data-lucide="${name}" class="${classes}" width="${size}" height="${size}"></i>`;
@@ -625,9 +716,69 @@
 
         let state = {
             activeTab: 'itinerary',
-            selectedDayId: 'day1'
+            selectedDayId: 'day1',
+            guideTab: 'ios'
         };
-        
+
+        // 判斷是否從主畫面 (Standalone PWA Mode) 開啟
+        function isStandaloneMode() {
+            const isIOSStandalone = window.navigator.standalone === true;
+            const isDisplayStandalone = window.matchMedia('(display-mode: standalone)').matches;
+            const isAndroidApp = document.referrer.includes('android-app://');
+            const urlParams = new URLSearchParams(window.location.search);
+            const isPreviewOverride = urlParams.get('mode') === 'standalone' || urlParams.get('preview') === 'true';
+
+            return isIOSStandalone || isDisplayStandalone || isAndroidApp || isPreviewOverride;
+        }
+
+        // 步驟引導分頁切換
+        function switchGuideTab(tab) {
+            state.guideTab = tab;
+            renderGuideSteps();
+        }
+
+        function renderGuideSteps() {
+            const steps = GUIDE_STEPS[state.guideTab] || GUIDE_STEPS.ios;
+            const container = document.getElementById('guide-step-content');
+            if (!container) return;
+
+            container.innerHTML = steps.map(s => `
+                <div class="flex items-start gap-3">
+                    <span class="shrink-0 w-6 h-6 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center mt-0.5 shadow-sm">${s.num}</span>
+                    <div class="text-stone-700 leading-relaxed flex-1">
+                        ${s.text}
+                    </div>
+                </div>
+            `).join('');
+
+            const iosBtn = document.getElementById('btn-guide-ios');
+            const androidBtn = document.getElementById('btn-guide-android');
+
+            if (state.guideTab === 'ios') {
+                iosBtn.className = "flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all duration-200 bg-white text-indigo-900 shadow-sm";
+                androidBtn.className = "flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all duration-200 text-stone-500 hover:text-stone-800";
+            } else {
+                androidBtn.className = "flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all duration-200 bg-white text-indigo-900 shadow-sm";
+                iosBtn.className = "flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition-all duration-200 text-stone-500 hover:text-stone-800";
+            }
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // 隱藏版連續點擊 5 次頁尾可直接開啟（以便在電腦或非 PWA 瀏覽器中測試預覽）
+        let secretClickCount = 0;
+        let secretTimer = null;
+        function handleSecretUnlock() {
+            secretClickCount++;
+            clearTimeout(secretTimer);
+            secretTimer = setTimeout(() => { secretClickCount = 0; }, 2000);
+            if (secretClickCount >= 5) {
+                document.getElementById('pwa-guide-container').classList.add('hidden');
+                document.getElementById('app-container').classList.remove('hidden');
+                updateView();
+            }
+        }
+
         function updateView() {
             const mainContent = document.getElementById('main-content');
             const scrollerContainer = document.getElementById('date-scroller-container');
@@ -693,7 +844,22 @@
             event.preventDefault();
         });
 
-        document.addEventListener('DOMContentLoaded', updateView);
+        document.addEventListener('DOMContentLoaded', () => {
+            const isStandalone = isStandaloneMode();
+
+            if (isStandalone) {
+                // Standalone PWA 模式開啟 -> 正常瀏覽行程
+                document.getElementById('pwa-guide-container').classList.add('hidden');
+                document.getElementById('app-container').classList.remove('hidden');
+                updateView();
+            } else {
+                // 普通瀏覽器開啟 -> 顯示強制加入主畫面引導
+                document.getElementById('app-container').classList.add('hidden');
+                document.getElementById('pwa-guide-container').classList.remove('hidden');
+                renderGuideSteps();
+                lucide.createIcons();
+            }
+        });
     </script>
 </body>
 </html>
