@@ -34,6 +34,17 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* 防止手機與電腦瀏覽時儲存/長按選取圖片 */
+        img {
+            -webkit-touch-callout: none !important;
+            -webkit-user-select: none !important;
+            -khtml-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+            pointer-events: none !important;
+        }
+
         #main-content { -webkit-overflow-scrolling: touch; touch-action: pan-y; }
         #date-scroller, #bottom-nav { -webkit-overflow-scrolling: touch; touch-action: pan-x; }
 
@@ -85,6 +96,19 @@
     </div>
 
     <script>
+        // 攔截圖片右鍵與長按選單行為
+        document.addEventListener('contextmenu', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        }, false);
+
+        document.addEventListener('dragstart', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        }, false);
+
         const TRIP_DATA = {
             flights: [
                 { 
@@ -684,3 +708,4 @@
     </script>
 </body>
 </html>
+
