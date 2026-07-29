@@ -63,7 +63,96 @@
     </style>
 </head>
 <body>
-    <div class="w-full h-[100dvh] flex flex-col md:max-w-md md:mx-auto shadow-2xl overflow-hidden relative select-none bg-stone-300">
+
+    <!-- 強制加入主畫面引導頁面 (依據圖片 1:1 精確復刻) -->
+    <div id="pwa-prompt-screen" class="hidden fixed inset-0 z-[9999] bg-[#f2f2f4] overflow-y-auto min-h-screen flex flex-col items-center justify-between p-6 select-none">
+        <div class="w-full max-w-sm flex flex-col items-center space-y-5 pt-3 pb-6">
+            
+            <!-- 頂部紅色提示標籤 -->
+            <div class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-rose-100/90 text-rose-600 text-sm font-semibold shadow-sm border border-rose-200/60">
+                <i data-lucide="shield-alert" class="w-4 h-4 text-rose-500 shrink-0"></i>
+                <span>請先加入主畫面才能瀏覽</span>
+            </div>
+
+            <!-- 主標題與副標題說明 -->
+            <div class="text-center space-y-2">
+                <h1 class="text-3xl font-black tracking-tight text-stone-900">KUMAMOTO TRIP 2026</h1>
+                <p class="text-xs text-stone-500 leading-relaxed max-w-[270px] mx-auto font-medium">
+                    請將此行程網頁加入手機主畫面，以獲取最佳 App 瀏覽體驗
+                </p>
+            </div>
+
+            <!-- 主畫面圖示卡片 (全圖顯示 kumamoto.jpg) -->
+            <div class="w-full bg-white rounded-3xl p-6 shadow-sm border border-stone-200/60 flex flex-col items-center">
+                <div class="w-48 h-48 rounded-3xl bg-stone-100/80 overflow-hidden flex items-center justify-center p-2 border border-stone-200/50 shadow-inner mb-4">
+                    <img src="kumamoto.jpg" alt="Kumamoto Trip 主畫面圖示" class="w-full h-full object-contain rounded-2xl" onerror="this.src='https://placehold.co/200x200/e2e8f0/475569?text=Kumamoto+Trip';"/>
+                </div>
+                <span class="text-stone-700 font-semibold text-sm">Kumamoto Trip 主畫面圖示</span>
+            </div>
+
+            <!-- iOS / Android 切換 Tab -->
+            <div class="w-full bg-stone-200/80 p-1 rounded-2xl flex text-sm font-medium">
+                <button id="tab-ios" onclick="switchGuideTab('ios')" class="flex-1 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all bg-white text-indigo-950 font-bold shadow-sm">
+                    <i data-lucide="apple" class="w-4 h-4 mb-0.5"></i>
+                    <span>iPhone (Safari)</span>
+                </button>
+                <button id="tab-android" onclick="switchGuideTab('android')" class="flex-1 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all text-stone-500 hover:text-stone-800">
+                    <i data-lucide="smartphone" class="w-4 h-4"></i>
+                    <span>Android (Chrome)</span>
+                </button>
+            </div>
+
+            <!-- iOS 操作步驟卡片 -->
+            <div id="guide-ios" class="w-full bg-white rounded-2xl p-5 shadow-sm border border-stone-200/60 space-y-4 text-stone-700 text-sm">
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shrink-0">1</span>
+                    <p class="leading-snug">點擊 Safari 下方工具列的「 <span class="font-bold text-stone-900">分享</span> 」圖示 <i data-lucide="share" class="inline w-4 h-4 text-indigo-600 ml-0.5 -mt-0.5"></i></p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shrink-0">2</span>
+                    <p class="leading-snug">在選單中選取「 <span class="font-bold text-stone-900">加入主畫面</span> 」 <i data-lucide="plus-square" class="inline w-4 h-4 text-indigo-600 ml-0.5 -mt-0.5"></i></p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shrink-0">3</span>
+                    <p class="leading-snug">點擊右上角「 <span class="font-bold text-stone-900">新增</span> 」，即可從桌面開啟瀏覽！</p>
+                </div>
+            </div>
+
+            <!-- Android 操作步驟卡片 (預設隱藏) -->
+            <div id="guide-android" class="hidden w-full bg-white rounded-2xl p-5 shadow-sm border border-stone-200/60 space-y-4 text-stone-700 text-sm">
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shrink-0">1</span>
+                    <p class="leading-snug">點擊 Chrome 右上角的「 <span class="font-bold text-stone-900">三點選單</span> 」圖示 <i data-lucide="more-vertical" class="inline w-4 h-4 text-indigo-600 ml-0.5 -mt-0.5"></i></p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shrink-0">2</span>
+                    <p class="leading-snug">選取「 <span class="font-bold text-stone-900">加到主畫面</span> 」或「 安裝應用程式 」</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold shrink-0">3</span>
+                    <p class="leading-snug">點擊「 <span class="font-bold text-stone-900">新增</span> 」，即可從桌面專屬 Icon 開啟！</p>
+                </div>
+            </div>
+
+            <!-- 下方提示箭頭文字 -->
+            <div class="flex items-center justify-center gap-1.5 text-indigo-400 font-medium text-sm pt-1">
+                <i data-lucide="arrow-down" class="w-4 h-4 animate-bounce"></i>
+                <span>請依上述步驟將網頁加入主畫面</span>
+            </div>
+
+        </div>
+
+        <!-- 頁尾 Created by Wen 對齊呈現 -->
+        <div class="w-full text-center pb-4 pt-2">
+            <div class="inline-flex items-baseline gap-2">
+                <span class="text-stone-400 text-sm font-normal">Created by</span>
+                <span class="text-3xl text-stone-600" style="font-family: 'Dancing Script', cursive;">Wen</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 行程主程式容器 -->
+    <div id="main-app-container" class="w-full h-[100dvh] flex flex-col md:max-w-md md:mx-auto shadow-2xl overflow-hidden relative select-none bg-stone-300">
         
         <!-- 背景圖層 -->
         <div class="fixed inset-0 z-0 pointer-events-none md:max-w-md md:mx-auto">
@@ -96,6 +185,13 @@
     </div>
 
     <script>
+        /* ==========================================================================
+           【開發 / 測試預覽模式設定】(ON / OFF 手動切換開關)
+           - DEV_PREVIEW_MODE = true  (ON)  : 開啟測試預覽模式 (關閉強制加入主畫面選單，直接瀏覽內容)
+           - DEV_PREVIEW_MODE = false (OFF) : 正式模式 (必須加入手機「主畫面」才能開啟瀏覽)
+           ========================================================================== */
+        const DEV_PREVIEW_MODE = false; // ON 時改為 true，OFF 時改為 false
+
         // 攔截圖片右鍵與長按選單行為
         document.addEventListener('contextmenu', function(e) {
             if (e.target.tagName === 'IMG') {
@@ -318,6 +414,47 @@
             const icon = WEATHER_ICONS[type] || WEATHER_ICONS.sunny;
             return getIcon(icon.name, `w-5 h-5 ${icon.class}`);
         };
+
+        function checkPwaStatus() {
+            // 判斷是否由主畫面 (Standalone / PWA) 開啟
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
+                                 (window.navigator.standalone === true) ||
+                                 document.referrer.includes('android-app://');
+
+            const pwaScreen = document.getElementById('pwa-prompt-screen');
+            const mainAppScreen = document.getElementById('main-app-container');
+
+            // 若開啓開發測試模式 (DEV_PREVIEW_MODE === true)，或已經是主畫面啟動，則進入主程式
+            if (DEV_PREVIEW_MODE || isStandalone) {
+                if (pwaScreen) pwaScreen.classList.add('hidden');
+                if (mainAppScreen) mainAppScreen.classList.remove('hidden');
+                updateView();
+            } else {
+                if (pwaScreen) pwaScreen.classList.remove('hidden');
+                if (mainAppScreen) mainAppScreen.classList.add('hidden');
+            }
+            lucide.createIcons();
+        }
+
+        function switchGuideTab(os) {
+            const tabIos = document.getElementById('tab-ios');
+            const tabAndroid = document.getElementById('tab-android');
+            const guideIos = document.getElementById('guide-ios');
+            const guideAndroid = document.getElementById('guide-android');
+
+            if (os === 'ios') {
+                tabIos.className = "flex-1 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all bg-white text-indigo-950 font-bold shadow-sm";
+                tabAndroid.className = "flex-1 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all text-stone-500 hover:text-stone-800";
+                guideIos.classList.remove('hidden');
+                guideAndroid.classList.add('hidden');
+            } else {
+                tabAndroid.className = "flex-1 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all bg-white text-indigo-950 font-bold shadow-sm";
+                tabIos.className = "flex-1 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-all text-stone-500 hover:text-stone-800";
+                guideAndroid.classList.remove('hidden');
+                guideIos.classList.add('hidden');
+            }
+            lucide.createIcons();
+        }
 
         function renderItineraryItem(item) {
             if (item.type === 'ticket') {
@@ -642,6 +779,8 @@
             const scrollerContainer = document.getElementById('date-scroller-container');
             const headerStatus = document.getElementById('header-status');
 
+            if (!mainContent) return;
+
             mainContent.scrollTop = 0;
             let contentHtml = '';
             
@@ -703,7 +842,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            updateView();
+            checkPwaStatus();
         });
     </script>
 </body>
