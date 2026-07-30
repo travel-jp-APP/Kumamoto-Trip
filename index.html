@@ -191,7 +191,7 @@
            - DEV_PREVIEW_MODE = true  (ON)  : 開啟測試預覽模式 (關閉強制加入主畫面選單，直接瀏覽內容)
            - DEV_PREVIEW_MODE = false (OFF) : 正式模式 (必須加入手機「主畫面」才能開啟瀏覽)
            ========================================================================== */
-        const DEV_PREVIEW_MODE = false; // ON 時改為 true，OFF 時改為 false
+        const DEV_PREVIEW_MODE = true; // ON 時改為 true，OFF 時改為 false
 
         // 攔截圖片右鍵與長按選單行為
         document.addEventListener('contextmenu', function(e) {
@@ -333,6 +333,7 @@
                 ]}
             ],
             mapLinks: [
+                { title: "マンホールカード（熊本県）", url: "https://cardhunter.jp/list/7mDwYYN74PSGP9EX70onu885N7wg/pref/43" },
                 { title: "阿蘇熊本機場交通", url: "https://www.kumamoto-airport.co.jp/zh-TW/%E8%A8%AB%E5%95%8F/" },
                 { title: "熊本熊IC卡自動販賣機", url: "https://www.kumamoto-airport.co.jp/zh-TW/%E8%A8%AD%E5%82%99/IC%E5%8D%A1%E8%87%AA%E5%8B%95%E8%B2%A9%E8%B3%A3%E6%A9%9F/" },
                 { title: "阿蘇熊本機場交通時刻表", url: "https://www.kumamoto-airport.co.jp/pressrelease-media/timetable-limousine_tw.pdf" },
