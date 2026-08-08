@@ -282,7 +282,7 @@
            - DEV_PREVIEW_MODE = true  (ON)  : 開啟測試預覽模式 (關閉強制加入主畫面選單，直接瀏覽內容)
            - DEV_PREVIEW_MODE = false (OFF) : 正式模式 (必須加入手機「主畫面」才能開啟瀏覽)
            ========================================================================== */
-        const DEV_PREVIEW_MODE = true; // ON 時改為 true，OFF 時改為 false
+        const DEV_PREVIEW_MODE = false; // ON 時改為 true，OFF 時改為 false
 
         // 攔截圖片右鍵與長按選單行為
         document.addEventListener('contextmenu', function(e) {
@@ -359,7 +359,7 @@
                     mapUrl: "https://maps.app.goo.gl/jaQq4xmjTzx76kHy6"
                 }
             ],
-            Itinerary: [
+         Itinerary: [
                 { id: "day1", date: "09/04", dayOfWeek: "五", location: "阿蘇 ➔ 熊本", weather: "sunny", temp: "28°C", items: [
                     { type: "transport", time: "07:30", title: "搭乘 JX846 飛往熊本", mapUrl: "https://maps.app.goo.gl/wbkMbuNTzSuTo1gS7", note: "【航班資訊】\n• 預計 10:45 抵達熊本機場 (KMJ)。\n\n【自駕取車指南】\n• 於機場航廈辦理租車櫃檯手續，搭乘接駁車前往租車公司領車。\n• 檢查車輛外觀、設定 ETC 卡及導航，出發前往阿蘇地區。" },
                     { type: "visit", time: "12:00", title: "ナミ像", tag: "收集", highlight: "娜美銅像", mapUrl: "https://maps.app.goo.gl/H8h7FzGXdHGTKUyy9", routeUrl: "https://maps.app.goo.gl/o8KRJSSwWyG8AsxW9", note: "【特色說明】\n• 位置：阿蘇郡西原村（俵山交流館 萌の里）。\n• 設有草帽海賊團航海士娜美銅像，可拍照留念並體驗阿蘇地景。\n\n🚗 距離 8.1 公里，車程約 13 分鐘" },
@@ -425,7 +425,7 @@
                     { type: "transport", time: "11:55", title: "搭乘 JX847 返台", mapUrl: "https://maps.app.goo.gl/wbkMbuNTzSuTo1gS7", note: "【航班資訊】\n• 11:55 熊本 (KMJ) 起飛 ➔ 13:20 抵達台北 (TPE)。\n• 結束充實美好的熊本、佐賀與福岡「人孔蓋卡」及「神社」自駕收集之旅！" }
                 ]}
             ],
-            mapLinks: [
+          mapLinks: [
                 {
                     category: "卡片",
                     icon: "credit-card",
@@ -445,6 +445,13 @@
                         { title: "阿蘇熊本機場交通時刻表", url: "https://www.kumamoto-airport.co.jp/pressrelease-media/timetable-limousine_tw.pdf" },
                         { title: "熊本機場貴賓室Lounge ASO", url: "https://www.kumamoto-airport.co.jp/zh-TW/facilities/lounge/" },
                         { title: "御翔印販売空港店舗", url: "https://ec.jal.co.jp/img/0002/goods/include/3260J/soranogoshoin_20251101.pdf?v123" }
+                    ]
+                },
+                {
+                    category: "地點",
+                    icon: "map-pin",
+                    links: [
+                        { title: "Pokémon Center FUKUOKA(博多丸井OIOI百貨2F)", url: "https://maps.app.goo.gl/WJg5ymgpWcrrd6u28" }
                     ]
                 },
                 {
@@ -469,7 +476,6 @@
                     category: "其他",
                     icon: "ellipsis",
                     links: [
-                        { title: "Pokémon Center FUKUOKA(博多丸井OIOI百貨2F)", url: "https://maps.app.goo.gl/WJg5ymgpWcrrd6u28" },
                         { title: "紀念幣地圖", url: "https://www.stampmedal.com/map.htm" },
                         { title: "coinlocker地圖", url: "https://coinlocker.click/" }
                     ]
@@ -910,28 +916,32 @@
         }
 
         function renderMapView() {
-            const categoriesHtml = TRIP_DATA.mapLinks.map(cat => {
-                const linksHtml = cat.links.map(link => `
-                    <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 bg-white/95 backdrop-blur-sm border border-stone-200 rounded-xl shadow-sm active:bg-stone-50 transition-colors">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 bg-emerald-100 text-emerald-600 rounded-full shrink-0">${getIcon(cat.icon || 'map-pin', "", 18)}</div>
-                            <span class="text-base font-bold text-stone-700 leading-snug select-text">${link.title}</span>
-                        </div>
-                        ${getIcon('external-link', "text-stone-400 shrink-0 ml-2", 18)}
-                    </a>`).join('');
+            const categoriesHtml = TRIP_DATA.mapLinks.map(group => {
+                if (group.links) {
+                    const linksHtml = group.links.map(link => `
+                        <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-3.5 bg-white/95 backdrop-blur-sm border border-stone-200 rounded-xl shadow-sm active:bg-stone-50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <span class="text-base font-bold text-stone-700 select-text">${link.title}</span>
+                            </div>
+                            ${getIcon('external-link', "text-stone-400 shrink-0", 18)}
+                        </a>`).join('');
 
-                return `
-                    <div class="space-y-2.5">
-                        <h3 class="text-md font-bold text-stone-800 px-1 flex items-center gap-2 border-b border-stone-300/50 pb-1.5">
-                            <span class="w-2 h-4 bg-emerald-500 rounded-full inline-block"></span> ${cat.category}
-                        </h3>
+                    return `
                         <div class="space-y-2">
-                            ${linksHtml}
-                        </div>
-                    </div>`;
+                            <h3 class="text-sm font-bold text-stone-600 px-1 flex items-center gap-2">
+                                <div class="p-1.5 bg-emerald-100 text-emerald-600 rounded-lg">${getIcon(group.icon || 'map-pin', "", 16)}</div>
+                                <span>${group.category}</span>
+                            </h3>
+                            <div class="space-y-2">${linksHtml}</div>
+                        </div>`;
+                } else {
+                    return `
+                        <a href="${group.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between p-4 bg-white/95 backdrop-blur-sm border border-stone-200 rounded-xl shadow-sm active:bg-stone-50 transition-colors">
+                            <div class="flex items-center gap-3"><div class="p-2 bg-emerald-100 text-emerald-600 rounded-full">${getIcon('map', "", 20)}</div><span class="text-lg font-bold text-stone-700 select-text">${group.title}</span></div>${getIcon('external-link', "text-stone-400", 18)}
+                        </a>`;
+                }
             }).join('');
-
-            return `<div class="space-y-6 animate-fade-in pb-6"><h2 class="text-xl font-bold text-stone-800 px-1 flex items-center gap-2">${getIcon('map', "text-emerald-600", 24)}地圖與相關連結</h2>${categoriesHtml}</div>`;
+            return `<div class="space-y-5 animate-fade-in pb-6"><h2 class="text-xl font-bold text-stone-800 px-1 flex items-center gap-2">${getIcon('map', "text-emerald-600", 24)}地圖與相關連結</h2><div class="space-y-4">${categoriesHtml}</div></div>`;
         }
 
         function renderNotesView() {
