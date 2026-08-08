@@ -19,6 +19,11 @@
     
     <!-- 外部 UI 框架與圖示庫載入 -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class'
+        }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -32,6 +37,7 @@
             color: #1c1917; 
             overscroll-behavior: none; 
             -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         /* 防止手機與電腦瀏覽時儲存/長按選取圖片 */
@@ -61,6 +67,85 @@
         
         .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
         .pt-safe { padding-top: env(safe-area-inset-top); }
+
+        /* 暗黑模式 CSS 樣式支援 */
+        html.dark, html.dark body {
+            background-color: #121212 !important;
+            color: #f5f5f4 !important;
+        }
+
+        html.dark #main-app-container {
+            background-color: #18181b !important;
+        }
+
+        html.dark .bg-stone-300\/85 {
+            background-color: rgba(24, 24, 27, 0.88) !important;
+        }
+
+        html.dark #pwa-prompt-screen {
+            background-color: #18181b !important;
+            color: #f5f5f4 !important;
+        }
+
+        html.dark .bg-white\/80,
+        html.dark .bg-white\/90,
+        html.dark .bg-white\/95,
+        html.dark .bg-white {
+            background-color: rgba(39, 39, 42, 0.95) !important;
+            color: #f5f5f4 !important;
+            border-color: rgba(63, 63, 70, 0.6) !important;
+        }
+
+        html.dark .bg-stone-50,
+        html.dark .bg-stone-50\/50,
+        html.dark .bg-stone-100,
+        html.dark .bg-stone-100\/80,
+        html.dark .bg-stone-200,
+        html.dark .bg-stone-200\/80 {
+            background-color: rgba(52, 52, 56, 0.8) !important;
+            color: #e4e4e7 !important;
+            border-color: rgba(71, 71, 77, 0.5) !important;
+        }
+
+        html.dark .text-stone-900,
+        html.dark .text-stone-800,
+        html.dark .text-stone-700 {
+            color: #f4f4f5 !important;
+        }
+
+        html.dark .text-stone-600,
+        html.dark .text-stone-500 {
+            color: #a1a1aa !important;
+        }
+
+        html.dark .text-stone-400 {
+            color: #71717a !important;
+        }
+
+        html.dark .text-indigo-900 {
+            color: #a5b4fc !important;
+        }
+
+        html.dark .text-indigo-950 {
+            color: #c7d2fe !important;
+        }
+
+        html.dark .border-stone-100,
+        html.dark .border-stone-200,
+        html.dark .border-stone-200\/50,
+        html.dark .border-stone-200\/60,
+        html.dark .border-stone-300\/50 {
+            border-color: rgba(63, 63, 70, 0.6) !important;
+        }
+
+        /* 軟性彩色卡片與標籤 暗黑模式適應 */
+        html.dark .bg-red-50 { background-color: rgba(127, 29, 29, 0.3) !important; color: #fca5a5 !important; }
+        html.dark .bg-rose-50 { background-color: rgba(136, 19, 55, 0.3) !important; color: #fecdd3 !important; }
+        html.dark .bg-sky-50 { background-color: rgba(12, 74, 110, 0.3) !important; color: #bae6fd !important; }
+        html.dark .bg-emerald-50 { background-color: rgba(6, 78, 59, 0.3) !important; color: #a7f3d0 !important; }
+        html.dark .bg-blue-50 { background-color: rgba(30, 58, 138, 0.3) !important; color: #bfdbfe !important; }
+        html.dark .bg-amber-50 { background-color: rgba(120, 53, 15, 0.3) !important; color: #fde68a !important; }
+        html.dark .bg-indigo-50 { background-color: rgba(49, 46, 129, 0.3) !important; color: #c7d2fe !important; }
     </style>
 </head>
 <body>
@@ -168,7 +253,13 @@
                     <h1 class="text-xl font-black tracking-tighter text-indigo-900">KUMAMOTO TRIP</h1>
                     <p class="text-xs text-stone-400 font-medium tracking-widest">Sep 04 - Sep 08</p>
                 </div>
-                <div id="header-status" class="hidden flex items-center gap-2 bg-white/50 px-3 py-1.5 rounded-full border border-stone-100"></div>
+                <div class="flex items-center gap-2">
+                    <div id="header-status" class="hidden flex items-center gap-2 bg-white/50 px-3 py-1.5 rounded-full border border-stone-100"></div>
+                    <!-- 暗黑模式切換按鈕 -->
+                    <button id="dark-mode-toggle" onclick="toggleDarkMode()" class="p-2 rounded-full bg-stone-100/80 hover:bg-stone-200/80 text-stone-600 transition-colors flex items-center justify-center shrink-0 border border-stone-200/60" title="切換暗黑模式" aria-label="切換暗黑模式">
+                        <i data-lucide="moon" class="w-4 h-4"></i>
+                    </button>
+                </div>
             </div>
             
             <div id="date-scroller-container" class="hidden">
@@ -268,7 +359,7 @@
                     mapUrl: "https://maps.app.goo.gl/jaQq4xmjTzx76kHy6"
                 }
             ],
-            Itinerary: [
+         Itinerary: [
                 { id: "day1", date: "09/04", dayOfWeek: "五", location: "阿蘇 ➔ 熊本", weather: "sunny", temp: "28°C", items: [
                     { type: "transport", time: "07:30", title: "搭乘 JX846 飛往熊本", mapUrl: "https://maps.app.goo.gl/wbkMbuNTzSuTo1gS7", note: "【航班資訊】\n• 預計 10:45 抵達熊本機場 (KMJ)。\n\n【自駕取車指南】\n• 於機場航廈辦理租車櫃檯手續，搭乘接駁車前往租車公司領車。\n• 檢查車輛外觀、設定 ETC 卡及導航，出發前往阿蘇地區。" },
                     { type: "visit", time: "12:00", title: "ナミ像", tag: "收集", highlight: "娜美銅像", mapUrl: "https://maps.app.goo.gl/H8h7FzGXdHGTKUyy9", routeUrl: "https://maps.app.goo.gl/o8KRJSSwWyG8AsxW9", note: "【特色說明】\n• 位置：阿蘇郡西原村（俵山交流館 萌の里）。\n• 設有草帽海賊團航海士娜美銅像，可拍照留念並體驗阿蘇地景。\n\n🚗 距離 8.1 公里，車程約 13 分鐘" },
@@ -413,6 +504,44 @@
             selectedDayId: 'day1'
         };
 
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            updateThemeIcon();
+            
+            // 更新狀態列與 PWA 主題色彩
+            const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+            if (themeColorMeta) {
+                themeColorMeta.setAttribute('content', isDark ? '#121212' : '#d6d3d1');
+            }
+        }
+
+        function updateThemeIcon() {
+            const btn = document.getElementById('dark-mode-toggle');
+            if (btn) {
+                const isDark = document.documentElement.classList.contains('dark');
+                btn.innerHTML = isDark 
+                    ? `<i data-lucide="sun" class="w-4 h-4 text-amber-400"></i>` 
+                    : `<i data-lucide="moon" class="w-4 h-4 text-stone-600"></i>`;
+                lucide.createIcons();
+            }
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const isDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+            if (themeColorMeta) {
+                themeColorMeta.setAttribute('content', isDark ? '#121212' : '#d6d3d1');
+            }
+            updateThemeIcon();
+        }
+
         const getGoogleMapUrl = name => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
         const getIcon = (name, classes = "", size = 24) => `<i data-lucide="${name}" class="${classes}" width="${size}" height="${size}"></i>`;
 
@@ -422,7 +551,6 @@
         };
 
         function checkPwaStatus() {
-            // 判斷是否由主畫面 (Standalone / PWA) 開啟
             const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
                                  (window.navigator.standalone === true) ||
                                  document.referrer.includes('android-app://');
@@ -430,7 +558,6 @@
             const pwaScreen = document.getElementById('pwa-prompt-screen');
             const mainAppScreen = document.getElementById('main-app-container');
 
-            // 若開啓開發測試模式 (DEV_PREVIEW_MODE === true)，或已經是主畫面啟動，則進入主程式
             if (DEV_PREVIEW_MODE || isStandalone) {
                 if (pwaScreen) pwaScreen.classList.add('hidden');
                 if (mainAppScreen) mainAppScreen.classList.remove('hidden');
@@ -849,6 +976,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
             checkPwaStatus();
         });
     </script>
