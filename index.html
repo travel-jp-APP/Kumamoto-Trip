@@ -425,25 +425,55 @@
                     { type: "transport", time: "11:55", title: "搭乘 JX847 返台", mapUrl: "https://maps.app.goo.gl/wbkMbuNTzSuTo1gS7", note: "【航班資訊】\n• 11:55 熊本 (KMJ) 起飛 ➔ 13:20 抵達台北 (TPE)。\n• 結束充實美好的熊本、佐賀與福岡「人孔蓋卡」及「神社」自駕收集之旅！" }
                 ]}
             ],
-            mapLinks: [
-                { title: "マンホールカード（熊本県）", url: "https://cardhunter.jp/list/7mDwYYN74PSGP9EX70onu885N7wg/pref/43" },
-                { title: "ロゲットカード（福岡県）", url: "https://cardhunter.jp/list/bDAMYlAj9JLsLX7846pQPFzXWQ7E/pref/40" },
-                { title: "阿蘇熊本機場交通", url: "https://www.kumamoto-airport.co.jp/zh-TW/%E8%A8%AB%E5%95%8F/" },
-                { title: "熊本熊IC卡自動販賣機", url: "https://www.kumamoto-airport.co.jp/zh-TW/%E8%A8%AD%E5%82%99/IC%E5%8D%A1%E8%87%AA%E5%8B%95%E8%B2%A9%E8%B3%A3%E6%A9%9F/" },
-                { title: "阿蘇熊本機場交通時刻表", url: "https://www.kumamoto-airport.co.jp/pressrelease-media/timetable-limousine_tw.pdf" },
-                { title: "熊本機場貴賓室Lounge ASO", url: "https://www.kumamoto-airport.co.jp/zh-TW/facilities/lounge/" },
-                { title: "2026福岡宮地嶽神社交通", url: "https://komijian.com/jp-fukuoka-miyajidake-jinja-shrine/" },
-                { title: "御翔印販売空港店舗", url: "https://ec.jal.co.jp/img/0002/goods/include/3260J/soranogoshoin_20251101.pdf?v123" },
-                { title: "熊本市導覽手冊", url: "https://kumamoto-guide.jp/files/5ec6d7c9-e567-4176-a099-4b78c9b03614.pdf" },
-                { title: "熊本市觀光導遊地圖", url: "https://kumamoto-guide.jp/files/3015a11b-b068-45a0-bb88-aa3c7a3acafa.pdf" },
-                { title: "熊本市電路線圖", url: "https://www.kotsu-kumamoto.jp/" },
-                { title: "福岡市地鐵路線圖", url: "https://www.fukuoka-airport.jp/tw/access/subway.html" },
-                { title: "Pokémon Center FUKUOKA(博多丸井OIOI百貨2F)", url: "https://maps.app.goo.gl/WJg5ymgpWcrrd6u28" },
-                { title: "皿倉山交通", url: "https://kyushu.letsgojp.com/archives/369701/" },
-                { title: "マンホールカード官網", url: "https://www.gk-p.jp/mhcard/" },
-                { title: "マンホールカード地圖", url: "https://ekikaramanhole.whitebeach.org/ext/manholecard/map/?t=map" },
-                { title: "紀念幣地圖", url: "https://www.stampmedal.com/map.htm" },
-                { title: "coinlocker地圖", url: "https://coinlocker.click/" }
+          mapLinks: [
+                {
+                    category: "卡片",
+                    icon: "credit-card",
+                    links: [
+                        { title: "マンホールカード（熊本県）", url: "https://cardhunter.jp/list/7mDwYYN74PSGP9EX70onu885N7wg/pref/43" },
+                        { title: "ロゲットカード（福岡県）", url: "https://cardhunter.jp/list/bDAMYlAj9JLsLX7846pQPFzXWQ7E/pref/40" },
+                        { title: "マンホールカード官網", url: "https://www.gk-p.jp/mhcard/" },
+                        { title: "マンホールカード地圖", url: "https://ekikaramanhole.whitebeach.org/ext/manholecard/map/?t=map" }
+                    ]
+                },
+                {
+                    category: "機場",
+                    icon: "plane",
+                    links: [
+                        { title: "阿蘇熊本機場交通", url: "https://www.kumamoto-airport.co.jp/zh-TW/%E8%A8%AB%E5%95%8F/" },
+                        { title: "熊本熊IC卡自動販賣機", url: "https://www.kumamoto-airport.co.jp/zh-TW/%E8%A8%AD%E5%82%99/IC%E5%8D%A1%E8%87%AA%E5%8B%95%E8%B2%A9%E8%B3%A3%E6%A9%9F/" },
+                        { title: "阿蘇熊本機場交通時刻表", url: "https://www.kumamoto-airport.co.jp/pressrelease-media/timetable-limousine_tw.pdf" },
+                        { title: "熊本機場貴賓室Lounge ASO", url: "https://www.kumamoto-airport.co.jp/zh-TW/facilities/lounge/" },
+                        { title: "御翔印販売空港店舗", url: "https://ec.jal.co.jp/img/0002/goods/include/3260J/soranogoshoin_20251101.pdf?v123" }
+                    ]
+                },
+                {
+                    category: "交通",
+                    icon: "bus",
+                    links: [
+                        { title: "2026福岡宮地嶽神社交通", url: "https://komijian.com/jp-fukuoka-miyajidake-jinja-shrine/" },
+                        { title: "皿倉山交通", url: "https://kyushu.letsgojp.com/archives/369701/" },
+                        { title: "熊本市電路線圖", url: "https://www.kotsu-kumamoto.jp/" },
+                        { title: "福岡市地鐵路線圖", url: "https://www.fukuoka-airport.jp/tw/access/subway.html" }
+                    ]
+                },
+                {
+                    category: "導覽",
+                    icon: "book-open",
+                    links: [
+                        { title: "熊本市導覽手冊", url: "https://kumamoto-guide.jp/files/5ec6d7c9-e567-4176-a099-4b78c9b03614.pdf" },
+                        { title: "熊本市觀光導遊地圖", url: "https://kumamoto-guide.jp/files/3015a11b-b068-45a0-bb88-aa3c7a3acafa.pdf" }
+                    ]
+                },
+                {
+                    category: "其他",
+                    icon: "ellipsis",
+                    links: [
+                        { title: "Pokémon Center FUKUOKA(博多丸井OIOI百貨2F)", url: "https://maps.app.goo.gl/WJg5ymgpWcrrd6u28" },
+                        { title: "紀念幣地圖", url: "https://www.stampmedal.com/map.htm" },
+                        { title: "coinlocker地圖", url: "https://coinlocker.click/" }
+                    ]
+                }
             ],
             notes: [
                 { title: "熊本市電路線圖", image: "熊本市電路線圖.jpg" },
