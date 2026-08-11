@@ -41,7 +41,7 @@
         }
 
         /* 防止手機與電腦瀏覽時儲存/長按選取圖片 */
-        img {
+        img, video {
             -webkit-touch-callout: none !important;
             -webkit-user-select: none !important;
             -khtml-user-select: none !important;
@@ -249,9 +249,13 @@
         <!-- 頁首導航區 -->
         <div class="shrink-0 bg-white/80 backdrop-blur-md border-b border-stone-200/50 shadow-sm z-50">
             <div class="px-4 py-3 flex justify-between items-center">
-                <div>
-                    <h1 class="text-xl font-black tracking-tighter text-indigo-900">KUMAMOTO TRIP</h1>
-                    <p class="text-xs text-stone-400 font-medium tracking-widest">Sep 04 - Sep 08</p>
+                <div class="flex items-center gap-2.5">
+                    <!-- KUMAMOTO TRIP 旁邊置入影片 (無限循環播放、靜音、自動播放) -->
+                    <video src="KUMAMOTO.mp4" autoplay loop muted playsinline class="w-9 h-9 object-cover rounded-lg shadow-sm border border-stone-200/60 shrink-0"></video>
+                    <div>
+                        <h1 class="text-xl font-black tracking-tighter text-indigo-900">KUMAMOTO TRIP</h1>
+                        <p class="text-xs text-stone-400 font-medium tracking-widest">Sep 04 - Sep 08</p>
+                    </div>
                 </div>
                 <div class="flex items-center gap-2">
                     <div id="header-status" class="hidden flex items-center gap-2 bg-white/50 px-3 py-1.5 rounded-full border border-stone-100"></div>
@@ -282,17 +286,17 @@
            - DEV_PREVIEW_MODE = true  (ON)  : 開啟測試預覽模式 (關閉強制加入主畫面選單，直接瀏覽內容)
            - DEV_PREVIEW_MODE = false (OFF) : 正式模式 (必須加入手機「主畫面」才能開啟瀏覽)
            ========================================================================== */
-        const DEV_PREVIEW_MODE = false; // ON 時改為 true，OFF 時改為 false
+        const DEV_PREVIEW_MODE = true; // ON 時改為 true，OFF 時改為 false
 
-        // 攔截圖片右鍵與長按選單行為
+        // 攔截圖片與影片右鍵與長按選單行為
         document.addEventListener('contextmenu', function(e) {
-            if (e.target.tagName === 'IMG') {
+            if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
                 e.preventDefault();
             }
         }, false);
 
         document.addEventListener('dragstart', function(e) {
-            if (e.target.tagName === 'IMG') {
+            if (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO') {
                 e.preventDefault();
             }
         }, false);
